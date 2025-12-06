@@ -52,12 +52,12 @@ type StatusOption = "" | UserStatusValue;
 type SnackbarSeverity = "success" | "error" | "warning" | "info";
 
 const ROLE_OPTIONS: UserRoleValue[] = [
+  "EMPLEADO",
+  "GERENTE",
+  "TÉCNICO",
+  "ANALISTA",
+  "SOPORTE",
   "ADMIN",
-  "EMPLOYEE",
-  "MANAGER",
-  "TECHNICIAN",
-  "ANALYST",
-  "SUPPORT",
 ];
 
 const STATUS_OPTIONS: UserStatusValue[] = ["ACTIVE", "INACTIVE"];

@@ -1,12 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
+import type { ReactNode } from "react";
 import {
-  Container,
-  Typography,
-  Box,
   TextField,
   MenuItem,
-  Card,
-  CardContent,
   CircularProgress,
   Chip,
   Divider,
@@ -201,243 +197,224 @@ const AdminReportsPage = () => {
 
   if (loadingClients) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+      <div className="flex min-h-[60vh] items-center justify-center">
         <CircularProgress />
-      </Box>
+      </div>
     );
   }
 
   return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
-      <Typography variant="h4" sx={{ mb: 3, fontWeight: "bold" }}>
-        Reportes
-      </Typography>
-
-      <Card elevation={3} sx={{ p: 3, mb: 4 }}>
-        <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
-          Reporte Global del Sistema
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+    <div className="w-full px-6 py-6 space-y-6">
+      <div className="space-y-2">
+        <h1 className="text-3xl font-semibold text-slate-900">Reportes</h1>
+        <p className="text-sm text-slate-500">
           {systemReport
-            ? `Fecha del reporte: ${formatReportDate(systemReport.generatedAt)}`
+            ? `Última generación del reporte global: ${formatReportDate(systemReport.generatedAt)}`
             : "Cargando información del sistema..."}
-        </Typography>
-        <Box display="flex" flexWrap="wrap" gap={3}>
+        </p>
+      </div>
+
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm rounded-xl p-6 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
+              Reporte global del sistema
+            </h2>
+            <p className="text-sm text-slate-500">
+              Resumen consolidado de clientes, usuarios, dispositivos y líneas.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <SummaryCard title="Total Clientes" value={systemReport?.totalClients ?? "-"} />
           <SummaryCard title="Total Usuarios" value={systemReport?.totalUsers ?? "-"} />
           <SummaryCard title="Total Dispositivos" value={systemReport?.totalDevices ?? "-"} />
           <SummaryCard title="Total Líneas" value={systemReport?.totalLines ?? "-"} />
-        </Box>
-      </Card>
+        </div>
+      </div>
 
-      <Box sx={{ maxWidth: 360, mb: 4 }}>
-        <TextField
-          select
-          label="Selecciona un cliente"
-          fullWidth
-          value={selectedClientId}
-          onChange={(event) => {
-            const value = event.target.value;
-            setSelectedClientId(value === "" ? "" : Number(value));
-          }}
-          disabled={loadingClients}
-        >
-          <MenuItem value="">
-            <em>Selecciona un cliente</em>
-          </MenuItem>
-          {clients.map((client) => (
-            <MenuItem key={client.id} value={client.id}>
-              {client.companyName}
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm rounded-xl p-6 space-y-4">
+        <div>
+          <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+            Reportes por cliente
+          </h3>
+          <p className="text-sm text-slate-500">
+            Selecciona un cliente para ver métricas detalladas de dispositivos, líneas y usuarios.
+          </p>
+        </div>
+
+        <div className="max-w-sm">
+          <TextField
+            select
+            label="Selecciona un cliente"
+            fullWidth
+            size="small"
+            value={selectedClientId}
+            onChange={(event) => {
+              const value = event.target.value;
+              setSelectedClientId(value === "" ? "" : Number(value));
+            }}
+            disabled={loadingClients}
+          >
+            <MenuItem value="">
+              <em>Selecciona un cliente</em>
             </MenuItem>
-          ))}
-        </TextField>
-      </Box>
+            {clients.map((client) => (
+              <MenuItem key={client.id} value={client.id}>
+                {client.companyName}
+              </MenuItem>
+            ))}
+          </TextField>
+        </div>
 
-      {error && (
-        <Typography color="error" sx={{ mb: 2 }}>
-          {error}
-        </Typography>
-      )}
+        {error && <p className="text-sm text-red-600">{error}</p>}
 
-      {!selectedClientId && (
-        <Typography color="text.secondary">
-          Selecciona un cliente para visualizar sus reportes.
-        </Typography>
-      )}
+        {!selectedClientId && (
+          <p className="text-sm text-slate-500">
+            Selecciona un cliente para visualizar sus reportes.
+          </p>
+        )}
+      </div>
 
       {selectedClientId && loadingReports && (
-        <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+        <div className="flex min-h-[200px] items-center justify-center rounded-xl border border-dashed border-slate-200">
           <CircularProgress />
-        </Box>
+        </div>
       )}
 
       {selectedClientId && !loadingReports && clientReport && deviceReport && lineReport && (
-        <Box
-          display="grid"
-          gridTemplateColumns={{ xs: "1fr", md: "repeat(3, 1fr)" }}
-          gap={3}
-        >
-          {/* Reporte General */}
-          <Card elevation={3}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Reporte General
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-              <Box display="flex" flexDirection="column" gap={2}>
-                <KpiRow label="Usuarios totales" value={clientReport.totalUsers} />
-                <KpiRow label="Usuarios activos" value={clientReport.activeUsers} />
-                <KpiRow label="Líneas totales" value={clientReport.totalLines} />
-                <KpiRow label="Líneas activas" value={clientReport.activeLines} />
-                <KpiRow label="Dispositivos totales" value={clientReport.totalDevices} />
-              </Box>
+        <div className="grid gap-6 lg:grid-cols-3">
+          <SectionCard
+            title="Reporte general"
+            description="Usuarios, líneas y dispositivos asociados al cliente."
+          >
+            <div className="space-y-2">
+              <KpiRow label="Usuarios totales" value={clientReport.totalUsers} />
+              <KpiRow label="Usuarios activos" value={clientReport.activeUsers} />
+              <KpiRow label="Líneas totales" value={clientReport.totalLines} />
+              <KpiRow label="Líneas activas" value={clientReport.activeLines} />
+              <KpiRow label="Dispositivos totales" value={clientReport.totalDevices} />
+            </div>
 
-              <Divider sx={{ my: 2 }} />
-              <Typography variant="subtitle2" gutterBottom>
-                Líneas activas
-              </Typography>
-                {enrichedActiveLines.length > 0 ? (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 1,
-                      maxHeight: 220,
-                      overflowY: "auto",
-                      pr: 1,
-                    }}
-                  >
-                    {enrichedActiveLines.map(({ phoneNumber, userName, department }) => {
-                      const label = userName
-                        ? `${phoneNumber} · ${userName}${
-                            department ? ` (${department})` : ""
-                          }`
-                        : `${phoneNumber} · Sin asignación`;
+            <Divider className="my-3" />
 
-                      return <Chip key={phoneNumber} label={label} color="primary" />;
-                    })}
-                </Box>
+            <div className="space-y-2">
+              <p className="text-sm font-semibold text-slate-900 dark:text-white">Líneas activas</p>
+              {enrichedActiveLines.length > 0 ? (
+                <div className="flex max-h-56 flex-col gap-2 overflow-y-auto pr-1">
+                  {enrichedActiveLines.map(({ phoneNumber, userName, department }) => {
+                    const label = userName
+                      ? `${phoneNumber} · ${userName}${department ? ` (${department})` : ""}`
+                      : `${phoneNumber} · Sin asignación`;
+
+                    return <Chip key={phoneNumber} label={label} color="primary" />;
+                  })}
+                </div>
               ) : (
-                <Typography variant="body2" color="text.secondary">
-                  No hay líneas activas registradas.
-                </Typography>
+                <p className="text-sm text-slate-500">No hay líneas activas registradas.</p>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </SectionCard>
 
-          {/* Reporte de Dispositivos */}
-          <Card elevation={3}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Salud de Dispositivos
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-              <Box display="flex" flexWrap="wrap" gap={2}>
-                <KpiBadge label="Total" value={deviceReport.totalDevices} />
-                <KpiBadge
-                  label="Asignados"
-                  value={deviceReport.assignedDevices}
-                  color="success"
-                />
-                <KpiBadge
-                  label="Almacén"
-                  value={deviceReport.storageDevices}
-                  color="warning"
-                />
-                <KpiBadge
-                  label="Reparación"
-                  value={deviceReport.repairDevices}
-                  color="warning"
-                />
-                <KpiBadge
-                  label="Perdidos"
-                  value={deviceReport.lostDevices}
-                  color="error"
-                />
-                <KpiBadge
-                  label="Baja"
-                  value={deviceReport.decommissionedDevices}
-                  color="error"
-                />
-              </Box>
+          <SectionCard
+            title="Salud de dispositivos"
+            description="Estado actual del parque tecnológico."
+          >
+            <div className="grid gap-2 sm:grid-cols-2">
+              <KpiBadge label="Total" value={deviceReport.totalDevices} color="success" />
+              <KpiBadge label="Asignados" value={deviceReport.assignedDevices} color="success" />
+              <KpiBadge label="Almacén" value={deviceReport.storageDevices} color="warning" />
+              <KpiBadge label="Reparación" value={deviceReport.repairDevices} color="warning" />
+              <KpiBadge label="Perdidos" value={deviceReport.lostDevices} color="error" />
+              <KpiBadge label="Baja" value={deviceReport.decommissionedDevices} color="error" />
+            </div>
 
-              <Box sx={{ height: 260, mt: 2 }}>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={deviceChartData}
+                  margin={{ top: 10, right: 30, left: -20, bottom: 0 }}
+                  barCategoryGap="25%"
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis allowDecimals={false} />
+                  <RechartsTooltip />
+                  <Bar dataKey="value" fill="#2563eb" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </SectionCard>
+
+          <SectionCard
+            title="Uso de líneas"
+            description="Estados operativos y distribución por operador."
+          >
+            <div className="grid gap-2 sm:grid-cols-2">
+              <KpiBadge label="Total" value={lineReport.totalLines} color="success" />
+              <KpiBadge label="Activas" value={lineReport.activeLines} color="success" />
+              <KpiBadge label="Suspendidas" value={lineReport.suspendedLines} color="warning" />
+              <KpiBadge label="Desactivadas" value={lineReport.deactivatedLines} color="default" />
+              <KpiBadge label="Sin asignar" value={lineReport.unassignedLines} color="info" />
+            </div>
+
+            <div className="h-64">
+              {linePieData.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={deviceChartData}
-                    margin={{ top: 10, right: 30, left: -20, bottom: 0 }}
-                    barCategoryGap="25%"
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis allowDecimals={false} />
+                  <PieChart>
+                    <Pie
+                      data={linePieData}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={80}
+                      label={({ value }) => value}
+                      labelLine={false}
+                    >
+                      {linePieData.map((entry) => (
+                        <Cell key={`cell-${entry.name}`} fill={entry.color} />
+                      ))}
+                    </Pie>
                     <RechartsTooltip />
-                    <Bar dataKey="value" fill="#1976d2" radius={[4, 4, 0, 0]} />
-                  </BarChart>
+                    <Legend
+                      layout="horizontal"
+                      verticalAlign="bottom"
+                      align="center"
+                      formatter={(value: string) => `${value}`}
+                    />
+                  </PieChart>
                 </ResponsiveContainer>
-              </Box>
-            </CardContent>
-          </Card>
-
-          {/* Reporte de Líneas */}
-          <Card elevation={3}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Uso de Líneas
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-              <Box display="flex" flexWrap="wrap" gap={2}>
-                <KpiBadge label="Total" value={lineReport.totalLines} />
-                <KpiBadge label="Activas" value={lineReport.activeLines} color="success" />
-                <KpiBadge label="Suspendidas" value={lineReport.suspendedLines} color="warning" />
-                <KpiBadge label="Desactivadas" value={lineReport.deactivatedLines} color="default" />
-                <KpiBadge label="Sin asignar" value={lineReport.unassignedLines} color="info" />
-              </Box>
-
-              <Box sx={{ height: 260, mt: 2 }}>
-                {linePieData.length > 0 ? (
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={linePieData}
-                        dataKey="value"
-                        nameKey="name"
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={80}
-                          label={({ value }) => value}
-                          labelLine={false}
-                      >
-                        {linePieData.map((entry) => (
-                          <Cell key={`cell-${entry.name}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                        <RechartsTooltip />
-                        <Legend
-                          layout="horizontal"
-                          verticalAlign="bottom"
-                          align="center"
-                          formatter={(value: string) =>
-                            `${value}`
-                          }
-                        />
-                    </PieChart>
-                  </ResponsiveContainer>
-                ) : (
-                  <Box display="flex" alignItems="center" justifyContent="center" height="100%">
-                    <Typography variant="body2" color="text.secondary">
-                      No hay datos de operadores disponibles.
-                    </Typography>
-                  </Box>
-                )}
-              </Box>
-            </CardContent>
-          </Card>
-        </Box>
+              ) : (
+                <div className="flex h-full items-center justify-center rounded-lg border border-dashed border-slate-200">
+                  <p className="text-sm text-slate-500">No hay datos de operadores disponibles.</p>
+                </div>
+              )}
+            </div>
+          </SectionCard>
+        </div>
       )}
-    </Container>
+    </div>
   );
 };
+
+interface SectionCardProps {
+  title: string;
+  description?: string;
+  children: ReactNode;
+}
+
+const SectionCard = ({ title, description, children }: SectionCardProps) => (
+  <div className="space-y-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+    <div>
+      <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{title}</h3>
+      {description && <p className="text-sm text-slate-500">{description}</p>}
+    </div>
+    <Divider className="my-2" />
+    <div className="space-y-4">{children}</div>
+  </div>
+);
 
 interface KpiRowProps {
   label: string;
@@ -445,12 +422,12 @@ interface KpiRowProps {
 }
 
 const KpiRow = ({ label, value }: KpiRowProps) => (
-  <Box display="flex" justifyContent="space-between" alignItems="center">
-    <Typography variant="body2" color="text.secondary">
-      {label}
-    </Typography>
-    <Typography variant="h6">{value}</Typography>
-  </Box>
+  <div className="flex items-baseline gap-2 text-sm">
+    <span className="text-slate-500">{label}</span>
+    <span className="font-semibold text-slate-900 dark:text-white">
+      {value.toLocaleString("es-ES")}
+    </span>
+  </div>
 );
 
 type BadgeColor = "primary" | "success" | "warning" | "default" | "info" | "error";
@@ -461,23 +438,22 @@ interface KpiBadgeProps {
   color?: BadgeColor;
 }
 
+const BADGE_STYLES: Record<BadgeColor, string> = {
+  primary: "border-slate-200 bg-slate-50 text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-50",
+  success: "border-emerald-200 bg-emerald-50 text-emerald-900 dark:border-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-200",
+  warning: "border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-200",
+  default: "border-slate-200 bg-white text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100",
+  info: "border-sky-200 bg-sky-50 text-sky-900 dark:border-sky-800 dark:bg-sky-900/20 dark:text-sky-200",
+  error: "border-rose-200 bg-rose-50 text-rose-900 dark:border-rose-800 dark:bg-rose-900/20 dark:text-rose-200",
+};
+
 const KpiBadge = ({ label, value, color = "primary" }: KpiBadgeProps) => (
-  <Box
-    sx={{
-      minWidth: 110,
-      px: 2,
-      py: 1.2,
-      borderRadius: 2,
-  backgroundColor: color === "default" ? "grey.100" : `${color}.light`,
-  border: "1px solid",
-  borderColor: color === "default" ? "grey.300" : `${color}.main`,
-    }}
-  >
-    <Typography variant="caption" color="text.secondary">
+  <div className={`rounded-lg border px-3 py-2 text-sm ${BADGE_STYLES[color]}`}>
+    <span className="text-[11px] uppercase tracking-wide text-slate-500 dark:text-slate-400">
       {label}
-    </Typography>
-    <Typography variant="h6">{value}</Typography>
-  </Box>
+    </span>
+    <p className="text-xl font-semibold text-slate-900 dark:text-white">{value}</p>
+  </div>
 );
 
 interface SummaryCardProps {
@@ -486,23 +462,10 @@ interface SummaryCardProps {
 }
 
 const SummaryCard = ({ title, value }: SummaryCardProps) => (
-  <Card
-    elevation={1}
-    sx={{
-      flex: "1 1 220px",
-      p: 2,
-      borderRadius: 2,
-      border: "1px solid",
-      borderColor: "grey.200",
-    }}
-  >
-    <Typography variant="body2" color="text.secondary">
-      {title}
-    </Typography>
-    <Typography variant="h5" sx={{ fontWeight: "bold" }}>
-      {value}
-    </Typography>
-  </Card>
+  <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+    <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">{title}</p>
+    <p className="text-2xl font-semibold text-slate-900 dark:text-white">{value}</p>
+  </div>
 );
 
 const formatReportDate = (dateString?: string) => {

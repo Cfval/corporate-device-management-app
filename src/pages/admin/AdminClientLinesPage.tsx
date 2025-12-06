@@ -1,27 +1,33 @@
 import { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
 import { useParams } from "react-router-dom";
+
 import { getLinesByClient } from "../../api/lines";
 import type { Line } from "../../types/Line";
 
-import {
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  TableContainer,
-  Paper,
-  Typography,
-  CircularProgress,
-  TextField,
-  Box,
-  Container,
-} from "@mui/material";
-
+// Chips
 import { LineStatusChip } from "../../components/ui/LineStatusChip";
 import { OperatorChip } from "../../components/ui/OperatorChip";
+
+// Modal
 import { LineDetailsModal } from "../../components/lines/LineDetailsModal";
+
+// Icons
+import { Eye } from "lucide-react";
+
+// MUI
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import CircularProgress from "@mui/material/CircularProgress";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
 
 const AdminClientLinesPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -81,7 +87,7 @@ const AdminClientLinesPage = () => {
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+      <Box className="flex justify-center items-center min-h-[60vh]">
         <CircularProgress />
       </Box>
     );
@@ -89,18 +95,19 @@ const AdminClientLinesPage = () => {
 
   if (lines.length === 0) {
     return (
-      <Container sx={{ py: 4 }}>
+      <div className="px-6 py-6 max-w-screen-xl mx-auto">
         <Typography variant="h6" className="text-center mt-8">
           No hay líneas registradas.
         </Typography>
-      </Container>
+      </div>
     );
   }
 
   return (
-    <Container sx={{ py: 4 }}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
-        <Typography variant="h4">
+    <div className="px-6 py-6 max-w-screen-xl mx-auto">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
+        <Typography variant="h4" className="font-bold">
           Líneas del Cliente
         </Typography>
 
@@ -110,10 +117,16 @@ const AdminClientLinesPage = () => {
           size="small"
           value={search}
           onChange={handleSearchChange}
+          sx={{ minWidth: 240 }}
         />
-      </Box>
+      </div>
 
-      <TableContainer component={Paper} elevation={3}>
+      {/* Table */}
+      <TableContainer
+        component={Paper}
+        elevation={1}
+        className="rounded-xl border border-slate-200"
+      >
         <Table>
           <TableHead>
             <TableRow>
@@ -124,35 +137,46 @@ const AdminClientLinesPage = () => {
               <TableCell><strong>Operador</strong></TableCell>
               <TableCell><strong>Empleado</strong></TableCell>
               <TableCell><strong>Dispositivo</strong></TableCell>
+              <TableCell align="right"><strong>Acciones</strong></TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
-            {filteredLines.map((line) => (
-              <TableRow
-                key={line.id}
-                hover
-                sx={{ cursor: "pointer" }}
-                onClick={() => openDetails(line)}
-              >
-                <TableCell>{line.id}</TableCell>
-                <TableCell>{line.phoneNumber}</TableCell>
-                <TableCell>{line.tariffType}</TableCell>
+            {filteredLines.map((l) => (
+              <TableRow key={l.id} hover>
+                <TableCell>{l.id}</TableCell>
+                <TableCell>{l.phoneNumber}</TableCell>
+                <TableCell>{l.tariffType}</TableCell>
                 <TableCell>
-                  <LineStatusChip status={line.status} />
+                  <LineStatusChip status={l.status} />
                 </TableCell>
                 <TableCell>
-                  <OperatorChip operator={line.operator} />
+                  <OperatorChip operator={l.operator} />
                 </TableCell>
-                <TableCell>{line.employeeId ?? "—"}</TableCell>
-                <TableCell>{line.deviceId ?? "—"}</TableCell>
+                <TableCell>{l.employeeId ?? "—"}</TableCell>
+                <TableCell>{l.deviceId ?? "—"}</TableCell>
+
+                {/* Eye button actions */}
+                <TableCell align="right">
+                  <IconButton
+                    onClick={() => openDetails(l)}
+                    className="hover:bg-slate-200 p-1"
+                  >
+                    <Eye size={18} className="text-slate-600" />
+                  </IconButton>
+                </TableCell>
               </TableRow>
             ))}
 
-            {filteredLines.length === 0 && lines.length > 0 && (
+            {filteredLines.length === 0 && (
               <TableRow>
-                <TableCell colSpan={7}>
-                  <Typography variant="body1" align="center" sx={{ py: 3 }}>
+                <TableCell colSpan={8}>
+                  <Typography
+                    variant="body1"
+                    align="center"
+                    sx={{ py: 3 }}
+                    color="text.secondary"
+                  >
                     No se han encontrado líneas con ese criterio de búsqueda.
                   </Typography>
                 </TableCell>
@@ -162,14 +186,16 @@ const AdminClientLinesPage = () => {
         </Table>
       </TableContainer>
 
+      {/* Modal */}
       <LineDetailsModal
         open={modalOpen}
         line={selectedLine}
         onClose={closeDetails}
       />
-    </Container>
+    </div>
   );
 };
 
 export default AdminClientLinesPage;
+
 

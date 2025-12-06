@@ -1,37 +1,39 @@
-import { IconButton, Typography, AppBar, Toolbar } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { Menu } from "lucide-react";
 
 interface NavbarProps {
   onMenuClick: () => void;
   title?: string;
 }
 
-export const Navbar = ({ onMenuClick, title = 'Panel de control' }: NavbarProps) => {
+export const Navbar = ({ onMenuClick, title = "Panel de control" }: NavbarProps) => {
   return (
-    <AppBar
-      position="sticky"
-      sx={{
-        display: { xs: 'flex', md: 'none' },
-        backgroundColor: 'white',
-        color: 'text.primary',
-        boxShadow: 1,
-      }}
+    <header
+      className="
+        md:hidden 
+        sticky top-0 z-20 
+        bg-white dark:bg-slate-900 
+        text-slate-800 dark:text-slate-200 
+        shadow-sm border-b border-slate-200 dark:border-slate-700
+      "
     >
-      <Toolbar>
-        <IconButton
-          edge="start"
-          color="inherit"
-          aria-label="menu"
+      <div className="flex items-center gap-3 p-3">
+        {/* Botón del menú */}
+        <button
           onClick={onMenuClick}
-          sx={{ mr: 2 }}
+          className="
+            p-2 rounded-md 
+            hover:bg-slate-200 dark:hover:bg-slate-700 
+            transition
+          "
         >
-          <MenuIcon />
-        </IconButton>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          {title}
-        </Typography>
-      </Toolbar>
-    </AppBar>
+          <Menu size={22} />
+        </button>
+
+        {/* Título */}
+        <h1 className="text-lg font-semibold">{title}</h1>
+      </div>
+    </header>
   );
 };
+
 

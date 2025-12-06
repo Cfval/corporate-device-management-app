@@ -1,10 +1,10 @@
 export type UserRoleValue =
-  | "ADMIN"
-  | "EMPLOYEE"
-  | "MANAGER"
-  | "TECHNICIAN"
-  | "ANALYST"
-  | "SUPPORT";
+  | "EMPLEADO"
+  | "GERENTE"
+  | "TÉCNICO"
+  | "ANALISTA"
+  | "SOPORTE"
+  | "ADMIN";
 
 export type UserStatusValue = "ACTIVE" | "INACTIVE";
 

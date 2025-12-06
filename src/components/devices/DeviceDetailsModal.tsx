@@ -19,6 +19,12 @@ interface Props {
 export const DeviceDetailsModal = ({ open, device, onClose }: Props) => {
   if (!device) return null;
 
+  const Row = ({ label, value }: { label: string; value: React.ReactNode }) => (
+    <Typography className="text-gray-900">
+      <strong className="text-gray-700">{label}:</strong> {value ?? "—"}
+    </Typography>
+  );
+
   return (
     <Dialog
       open={open}
@@ -27,33 +33,41 @@ export const DeviceDetailsModal = ({ open, device, onClose }: Props) => {
       fullWidth
       disableRestoreFocus
       disableEnforceFocus={false}
+      slotProps={{
+        paper: {
+          className: "rounded-xl",
+        },
+      }}
     >
-      <DialogTitle>Detalles del dispositivo</DialogTitle>
+      <DialogTitle className="font-semibold text-lg">
+        Detalles del dispositivo
+      </DialogTitle>
 
-      <DialogContent dividers>
-        <Typography variant="subtitle1"><strong>ID:</strong> {device.id}</Typography>
-        <Typography>
-          <strong>Tipo:</strong> {translate("type", device.type ?? "")}
-        </Typography>
-        <Typography><strong>Marca:</strong> {device.brand}</Typography>
-        <Typography><strong>Modelo:</strong> {device.model}</Typography>
-        <Typography><strong>Serial Number:</strong> {device.serialNumber}</Typography>
-        <Typography><strong>IMEI:</strong> {device.imei}</Typography>
-        <Typography><strong>OS:</strong> {device.os}</Typography>
+      <DialogContent dividers className="space-y-4">
+        {/* Información general */}
+        <div className="space-y-2">
+          <Row label="ID" value={device.id} />
+          <Row label="Tipo" value={translate("type", device.type ?? "")} />
+          <Row label="Marca" value={device.brand} />
+          <Row label="Modelo" value={device.model} />
+          <Row label="Número de serie" value={device.serialNumber || "—"} />
+          <Row label="IMEI" value={device.imei} />
+          <Row label="Sistema operativo" value={device.os || "—"} />
+          <Row label="Estado" value={translate("device", device.status ?? "")} />
+        </div>
 
-        <Divider sx={{ my: 2 }} />
+        <Divider />
 
-        <Typography>
-          <strong>Empleado asignado:</strong> {device.employeeId ?? "Sin asignar"}
-        </Typography>
-        <Typography>
-          <strong>Línea asignada:</strong> {device.lineId ?? "Sin línea"}
-        </Typography>
-        <Typography><strong>Fecha activación:</strong> {device.activationDate}</Typography>
+        {/* Asignaciones */}
+        <div className="space-y-2">
+          <Row label="Empleado asignado" value={device.employeeId ?? "Sin asignar"} />
+          <Row label="Línea asignada" value={device.lineId ?? "Sin línea"} />
+          <Row label="Fecha de activación" value={device.activationDate} />
+        </div>
       </DialogContent>
 
-      <DialogActions>
-        <Button onClick={onClose} variant="contained">
+      <DialogActions className="p-4">
+        <Button onClick={onClose} variant="contained" fullWidth>
           Cerrar
         </Button>
       </DialogActions>

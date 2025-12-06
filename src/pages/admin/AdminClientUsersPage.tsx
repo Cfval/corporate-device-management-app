@@ -1,26 +1,25 @@
 import { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
 import { useParams } from "react-router-dom";
+
 import { getUsersByClient } from "../../api/users";
 import type { User } from "../../types/User";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  CircularProgress,
-  Typography,
-  TextField,
-  Box,
-  Container,
-} from "@mui/material";
-
 import { UserStatusChip } from "../../components/ui/UserStatusChip";
 import { UserRoleChip } from "../../components/ui/UserRoleChip";
+
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import CircularProgress from "@mui/material/CircularProgress";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 
 const AdminClientUsersPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -66,7 +65,7 @@ const AdminClientUsersPage = () => {
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+      <Box className="flex justify-center items-center min-h-[60vh]">
         <CircularProgress />
       </Box>
     );
@@ -83,9 +82,10 @@ const AdminClientUsersPage = () => {
   }
 
   return (
-    <Container sx={{ py: 4 }}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
-        <Typography variant="h4">
+    <div className="px-6 py-6 max-w-screen-xl mx-auto">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
+        <Typography variant="h4" className="font-bold">
           Usuarios del Cliente
         </Typography>
 
@@ -95,10 +95,16 @@ const AdminClientUsersPage = () => {
           size="small"
           value={search}
           onChange={handleSearchChange}
+          sx={{ minWidth: 240 }}
         />
-      </Box>
+      </div>
 
-      <TableContainer component={Paper} elevation={3}>
+      {/* Tabla */}
+      <TableContainer
+        component={Paper}
+        elevation={1}
+        className="rounded-xl border border-slate-200"
+      >
         <Table>
           <TableHead>
             <TableRow>
@@ -130,7 +136,7 @@ const AdminClientUsersPage = () => {
                   {u.email}
                 </TableCell>
 
-                <TableCell>{u.department}</TableCell>
+                <TableCell>{u.department || "—"}</TableCell>
 
                 <TableCell>
                   <UserStatusChip status={u.status} />
@@ -146,10 +152,15 @@ const AdminClientUsersPage = () => {
               </TableRow>
             ))}
 
-            {filteredUsers.length === 0 && users.length > 0 && (
+            {filteredUsers.length === 0 && (
               <TableRow>
                 <TableCell colSpan={7}>
-                  <Typography variant="body1" align="center" sx={{ py: 3 }}>
+                  <Typography
+                    variant="body1"
+                    align="center"
+                    sx={{ py: 3 }}
+                    color="text.secondary"
+                  >
                     No se han encontrado usuarios con ese criterio de búsqueda.
                   </Typography>
                 </TableCell>
@@ -158,7 +169,7 @@ const AdminClientUsersPage = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </Container>
+    </div>
   );
 };
 

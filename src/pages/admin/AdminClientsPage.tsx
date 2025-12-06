@@ -9,7 +9,6 @@ import {
   Box,
   Typography,
   CircularProgress,
-  Paper,
   Table,
   TableHead,
   TableRow,
@@ -17,9 +16,18 @@ import {
   TableBody,
   TableContainer,
   TextField,
-  Button,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
+import { Eye } from "lucide-react";
+
+import { motion } from "framer-motion";
 import { ClientStatusChip } from "../../components/ui/ClientStatusChip";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0 },
+};
 
 const AdminClientsPage = () => {
   const navigate = useNavigate();
@@ -37,7 +45,6 @@ const AdminClientsPage = () => {
 
       try {
         const data = await getClients();
-        // backend: { clientsList, totalClients, totalClientsFiltered }
         setClients([...data.clientsList].sort((a, b) => a.id - b.id));
         setTotalClients(data.totalClients);
       } catch (err) {
@@ -55,7 +62,6 @@ const AdminClientsPage = () => {
     setSearch(e.target.value);
   };
 
-  // Filtro simple por nombre o email en el front
   const filteredClients = clients.filter((c) => {
     const term = search.toLowerCase().trim();
     if (!term) return true;
@@ -69,9 +75,9 @@ const AdminClientsPage = () => {
 
   if (loading) {
     return (
-      <Box className="flex justify-center py-10">
+      <div className="flex justify-center items-center min-h-[60vh]">
         <CircularProgress />
-      </Box>
+      </div>
     );
   }
 
@@ -86,88 +92,124 @@ const AdminClientsPage = () => {
   }
 
   return (
-    <Box className="p-6">
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
-        <Box>
-          <Typography variant="h4" gutterBottom>
+    <Box className="p-6 space-y-6">
+      {/* Header */}
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        animate="visible"
+        transition={{ duration: 0.2 }}
+        className="flex justify-between items-end flex-wrap gap-4"
+      >
+        <div>
+          <Typography variant="h4" className="font-bold text-slate-900 mb-1">
             Gestión de clientes
           </Typography>
-          <Typography variant="subtitle1" color="text.secondary">
+
+          <Typography variant="subtitle1" className="text-slate-500">
             Total de clientes: {totalClients}
           </Typography>
-        </Box>
+        </div>
 
         <TextField
-          label="Buscar por nombre, CIF o email"
+          label="Buscar nombre, CIF o email"
           variant="outlined"
           size="small"
           value={search}
           onChange={handleSearchChange}
+          sx={{
+            minWidth: 260,
+          }}
         />
-      </Box>
+      </motion.div>
 
-      <TableContainer component={Paper} elevation={3}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell><strong>ID</strong></TableCell>
-              <TableCell><strong>Empresa</strong></TableCell>
-              <TableCell><strong>CIF</strong></TableCell>
-              <TableCell><strong>Email</strong></TableCell>
-              <TableCell><strong>Teléfono</strong></TableCell>
-              <TableCell><strong>Estado</strong></TableCell>
-              <TableCell align="right"><strong>Acciones</strong></TableCell>
-            </TableRow>
-          </TableHead>
-
-          <TableBody>
-            {filteredClients.map((client) => (
-              <TableRow key={client.id} hover>
-                <TableCell>{client.id}</TableCell>
-                <TableCell>{client.companyName}</TableCell>
-                <TableCell>{client.cif}</TableCell>
-                <TableCell
-                  sx={{
-                    maxWidth: 240,
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                  title={client.email}
-                >
-                  {client.email}
-                </TableCell>
-                <TableCell>{client.phoneNumber}</TableCell>
-                <TableCell>
-                  <ClientStatusChip status={client.status} />
-                </TableCell>
-                <TableCell align="right">
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    onClick={() => navigate(`/admin/clients/${client.id}`)}
-                  >
-                    Ver detalles
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-
-            {filteredClients.length === 0 && (
+      {/* Tabla */}
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm rounded-xl p-4">
+        <TableContainer component="div">
+          <Table>
+            <TableHead>
               <TableRow>
-                <TableCell colSpan={7}>
-                  <Typography variant="body1" align="center" sx={{ py: 3 }}>
-                    No se han encontrado clientes con ese criterio de búsqueda.
-                  </Typography>
-                </TableCell>
+                <TableCell><strong>ID</strong></TableCell>
+                <TableCell><strong>Empresa</strong></TableCell>
+                <TableCell><strong>CIF</strong></TableCell>
+                <TableCell><strong>Email</strong></TableCell>
+                <TableCell><strong>Teléfono</strong></TableCell>
+                <TableCell><strong>Estado</strong></TableCell>
+                <TableCell align="right"><strong>Acciones</strong></TableCell>
               </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+
+            <TableBody>
+              {filteredClients.map((client) => (
+                <TableRow
+                  key={client.id}
+                  hover
+                  sx={{
+                    cursor: "pointer",
+                    "&:hover": {
+                      backgroundColor: "rgba(148,163,184,0.10)",
+                    },
+                  }}
+                  onClick={() => navigate(`/admin/clients/${client.id}`)}
+                >
+                  <TableCell>{client.id}</TableCell>
+                  <TableCell>{client.companyName}</TableCell>
+                  <TableCell>{client.cif}</TableCell>
+
+                  <TableCell
+                    sx={{
+                      maxWidth: 240,
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                    title={client.email}
+                  >
+                    {client.email}
+                  </TableCell>
+
+                  <TableCell>{client.phoneNumber}</TableCell>
+
+                  <TableCell>
+                    <ClientStatusChip status={client.status} />
+                  </TableCell>
+
+                  <TableCell align="right" onClick={(e) => e.stopPropagation()}>
+                    <Tooltip title="Ver cliente" arrow>
+                      <IconButton
+                        size="small"
+                        color="primary"
+                        onClick={() => navigate(`/admin/clients/${client.id}`)}
+                      >
+                        <Eye className="h-4 w-4" />
+                      </IconButton>
+                    </Tooltip>
+                  </TableCell>
+                </TableRow>
+              ))}
+
+              {filteredClients.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={7}>
+                    <Typography
+                      variant="body1"
+                      align="center"
+                      sx={{ py: 3, color: "text.secondary" }}
+                    >
+                      No se han encontrado clientes con ese criterio de búsqueda.
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+
+          </Table>
+        </TableContainer>
+      </div>
     </Box>
   );
 };
 
 export default AdminClientsPage;
+
 

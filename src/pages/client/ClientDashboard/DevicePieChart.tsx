@@ -1,0 +1,93 @@
+// src/pages/client/ClientDashboard/DevicePieChart.tsx
+import { Card, CardContent } from "@mui/material";
+import type { DeviceHealthReport } from "../../../types/Reports";
+import { Pie } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { useMemo } from "react";
+import { motion } from "framer-motion";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+interface DevicePieChartProps {
+  deviceReport: DeviceHealthReport;
+}
+
+const DevicePieChart = ({ deviceReport }: DevicePieChartProps) => {
+  const devicePieData = useMemo(() => {
+    if (!deviceReport) {
+      return {
+        labels: [],
+        datasets: [],
+      };
+    }
+
+    return {
+      labels: [
+        "Asignados",
+        "En almacén",
+        "En reparación",
+        "Perdidos",
+        "De baja",
+      ],
+      datasets: [
+        {
+          data: [
+            deviceReport.assignedDevices,
+            deviceReport.storageDevices,
+            deviceReport.repairDevices,
+            deviceReport.lostDevices,
+            deviceReport.decommissionedDevices,
+          ],
+          backgroundColor: [
+            "#22c55e",
+            "#3b82f6",
+            "#eab308",
+            "#f97316",
+            "#9ca3af",
+          ],
+          borderWidth: 0,
+          hoverOffset: 6,
+        },
+      ],
+    };
+  }, [deviceReport]);
+
+  const pieOptions = {
+    plugins: {
+      legend: {
+        position: "bottom" as const,
+        labels: {
+          boxWidth: 16,
+          color: "#0f172a",
+        },
+      },
+    },
+    maintainAspectRatio: false,
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, delay: 0.05 }}
+    >
+      <Card className="h-full rounded-3xl border border-slate-200/70 bg-white/90 shadow-sm backdrop-blur-sm dark:border-slate-700/80 dark:bg-slate-900/80">
+        <CardContent className="p-5 sm:p-6">
+          <h2 className="mb-3 text-center text-sm font-semibold text-slate-900 dark:text-slate-50">
+            Distribución de dispositivos
+          </h2>
+          <div className="h-56">
+            <Pie data={devicePieData} options={pieOptions} />
+          </div>
+        </CardContent>
+      </Card>
+    </motion.div>
+  );
+};
+
+export default DevicePieChart;
