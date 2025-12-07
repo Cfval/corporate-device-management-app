@@ -89,7 +89,7 @@ const ClientDevicesPage = () => {
   }
 
   return (
-    <div className="flex flex-col gap-4 p-4 sm:p-6">
+    <div className="flex flex-col gap-2 p-4 sm:p-6">
       <DevicesHeader
         search={search}
         onSearchChange={handleSearchChange}

@@ -78,8 +78,10 @@ const UserFormDialog: FC<UserFormDialogProps> = ({
       maxWidth="sm"
       disableRestoreFocus
       disableEnforceFocus={false}
-      PaperProps={{
-        className: "rounded-xl",
+      slotProps={{
+        paper: {
+          className: "rounded-xl",
+        },
       }}
     >
       <DialogTitle className="font-semibold text-lg">

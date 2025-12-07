@@ -15,6 +15,7 @@ import {
 
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
+import digitalcitizenIcon from "../../assets/icons/DigitalCitizen.svg";
 
 interface SidebarContentProps {
   onNavigate?: () => void;
@@ -102,8 +103,19 @@ type MenuItem =
         text-slate-700 dark:text-slate-200
       ">
   
-        {/* HEADER */}
-        <div className="p-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+      {/* HEADER */}
+      <div className="p-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+        <div
+          className="flex items-center gap-3 cursor-pointer select-none"
+          onClick={() =>
+            navigate(user.role === "ADMIN" ? "/admin/dashboard" : "/client/dashboard")
+          }
+        >
+          <img
+            src={digitalcitizenIcon}
+            alt="Digital Citizen"
+            className="w-8 h-8 opacity-90 hover:opacity-100 hover:scale-105 transition duration-150"
+          />
           <div>
             <p className="font-semibold">{panelTitle}</p>
             {user.clientId && (
@@ -112,14 +124,15 @@ type MenuItem =
               </p>
             )}
           </div>
-  
-          <button
-            onClick={toggleDarkMode}
-            className="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 transition"
-          >
-            {darkMode ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
         </div>
+
+        <button
+          onClick={toggleDarkMode}
+          className="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+        >
+          {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+        </button>
+      </div>
   
         {/* MENU */}
         <nav className="

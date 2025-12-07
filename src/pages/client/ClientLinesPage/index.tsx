@@ -73,7 +73,7 @@ const ClientLinesPage = () => {
   }
 
   return (
-    <div className="flex flex-col gap-6 p-6">
+    <div className="flex flex-col gap-2 p-6">
       {/* HEADER */}
       <LinesHeader
         search={search}

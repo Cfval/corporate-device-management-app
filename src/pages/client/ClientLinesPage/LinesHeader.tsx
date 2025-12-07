@@ -1,6 +1,7 @@
 import type React from "react";
 import { Search, Trash2, Plus, X } from "lucide-react";
 import { Button } from "../../../components/ui/Button";
+import linesIcon from "../../../assets/icons/lines.svg";
 
 interface LinesHeaderProps {
   search: string;
@@ -22,12 +23,23 @@ const LinesHeader: React.FC<LinesHeaderProps> = ({
   onCreateLine,
 }) => {
   return (
-    <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
-      {/* LEFT SIDE */}
+    <div className="mb-2 flex flex-wrap items-end justify-between gap-3">
       <div className="space-y-1">
-        <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-50">
-          Mis Líneas
-        </h1>
+        <div className="flex items-end gap-1">
+          <div>
+            <img
+              src={linesIcon}
+              alt="Líneas"
+              className="h-24 w-24"
+              aria-hidden="true"
+            />
+          </div>
+          <div className="-translate-y-1">
+            <h1 className="text-[1.375rem] font-semibold text-slate-900 dark:text-slate-50">
+              Mis líneas
+            </h1>
+          </div>
+        </div>
 
         <div className="relative">
           <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">

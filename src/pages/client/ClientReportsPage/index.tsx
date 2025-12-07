@@ -111,7 +111,7 @@ const ClientReportsPage = () => {
 
       {/* TENDENCIAS DE CRECIMIENTO */}
       <section className="space-y-3">
-        <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-50">
+        <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">
           Tendencias de crecimiento
         </h2>
         <div className="grid gap-4 md:grid-cols-3">

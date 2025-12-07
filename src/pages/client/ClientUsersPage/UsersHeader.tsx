@@ -1,7 +1,7 @@
 import type React from "react";
 import { Button } from "../../../components/ui/Button";
 import { Search, Trash2, Plus, X } from "lucide-react";
-
+import usersIcon from "../../../assets/icons/users.svg";
 interface UsersHeaderProps {
   search: string;
   onSearchChange: (value: string) => void;
@@ -22,11 +22,23 @@ const UsersHeader: React.FC<UsersHeaderProps> = ({
   onCreateUser,
 }) => {
   return (
-    <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
-      <div className="space-y-1">
-        <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-50">
-          Mis usuarios
-        </h1>
+    <div className="mb-2 flex flex-wrap items-end justify-between gap-3">
+        <div className="space-y-1">
+          <div className="flex items-end gap-3">
+            <div>
+              <img
+                src={usersIcon}
+                alt="Usuarios"
+                className="h-24 w-24"
+                aria-hidden="true"
+              />
+            </div>
+            <div className="-translate-y-1">
+              <h1 className="text-[1.375rem] font-semibold text-slate-900 dark:text-slate-50">
+                Mis usuarios
+              </h1>
+            </div>
+          </div>
         <div className="relative">
           <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
             <Search className="h-4 w-4 text-slate-400" />
