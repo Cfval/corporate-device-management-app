@@ -9,17 +9,8 @@ import {
   Box,
   Typography,
   CircularProgress,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  TableContainer,
-  TextField,
-  IconButton,
-  Tooltip,
 } from "@mui/material";
-import { Eye } from "lucide-react";
+import { Eye, Search } from "lucide-react";
 
 import { motion } from "framer-motion";
 import { ClientStatusChip } from "../../components/ui/ClientStatusChip";
@@ -111,100 +102,85 @@ const AdminClientsPage = () => {
           </Typography>
         </div>
 
-        <TextField
-          label="Buscar nombre, CIF o email"
-          variant="outlined"
-          size="small"
-          value={search}
-          onChange={handleSearchChange}
-          sx={{
-            minWidth: 260,
-          }}
-        />
+        <div className="relative">
+          <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
+            <Search className="h-4 w-4 text-slate-400" />
+          </span>
+          <input
+            type="text"
+            value={search}
+            onChange={handleSearchChange}
+            placeholder="Buscar nombre, CIF o email"
+            aria-label="Buscar nombre, CIF o email"
+            className="w-72 max-w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm text-slate-800 shadow-sm outline-none ring-0 transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:focus:border-sky-500 dark:focus:ring-sky-900/40"
+          />
+        </div>
       </motion.div>
 
       {/* Tabla */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm rounded-xl p-4">
-        <TableContainer component="div" className="bg-white dark:bg-slate-900 rounded-lg">
-          <Table className="text-slate-700 dark:text-slate-200">
-            <TableHead className="bg-slate-50 dark:bg-slate-900">
-              <TableRow>
-                <TableCell className="text-slate-700 dark:text-slate-300"><strong>ID</strong></TableCell>
-                <TableCell className="text-slate-700 dark:text-slate-300"><strong>Empresa</strong></TableCell>
-                <TableCell className="text-slate-700 dark:text-slate-300"><strong>CIF</strong></TableCell>
-                <TableCell className="text-slate-700 dark:text-slate-300"><strong>Email</strong></TableCell>
-                <TableCell className="text-slate-700 dark:text-slate-300"><strong>Teléfono</strong></TableCell>
-                <TableCell className="text-slate-700 dark:text-slate-300"><strong>Estado</strong></TableCell>
-                <TableCell align="right" className="text-slate-700 dark:text-slate-300"><strong>Acciones</strong></TableCell>
-              </TableRow>
-            </TableHead>
+      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
+        <table className="w-full border-collapse text-slate-700 dark:text-slate-200">
+          <thead className="bg-slate-50 dark:bg-slate-800/50">
+            <tr className="text-left text-sm text-slate-600 dark:text-slate-300">
+              <th className="px-3 py-3 font-semibold">ID</th>
+              <th className="px-3 py-3 font-semibold">Empresa</th>
+              <th className="px-3 py-3 font-semibold">CIF</th>
+              <th className="px-3 py-3 font-semibold">Email</th>
+              <th className="px-3 py-3 font-semibold">Teléfono</th>
+              <th className="px-3 py-3 font-semibold">Estado</th>
+              <th className="px-3 py-3 font-semibold text-center">Acciones</th>
+            </tr>
+          </thead>
 
-            <TableBody className="bg-white dark:bg-slate-900">
-              {filteredClients.map((client) => (
-                <TableRow
-                  key={client.id}
-                  hover
-                  sx={{
-                    cursor: "pointer",
-                    "&:hover": {
-                      backgroundColor: "rgba(148,163,184,0.10)",
-                    },
-                  }}
-                  onClick={() => navigate(`/admin/clients/${client.id}`)}
-                >
-                  <TableCell className="text-slate-700 dark:text-slate-200">{client.id}</TableCell>
-                  <TableCell className="text-slate-700 dark:text-slate-200">{client.companyName}</TableCell>
-                  <TableCell className="text-slate-700 dark:text-slate-200">{client.cif}</TableCell>
-
-                  <TableCell
-                    sx={{
-                      maxWidth: 240,
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                    title={client.email}
-                  >
-                    <span className="text-slate-700 dark:text-slate-200">{client.email}</span>
-                  </TableCell>
-
-                  <TableCell className="text-slate-700 dark:text-slate-200">{client.phoneNumber}</TableCell>
-
-                  <TableCell>
-                    <ClientStatusChip status={client.status} />
-                  </TableCell>
-
-                  <TableCell align="right" onClick={(e) => e.stopPropagation()}>
-                    <Tooltip title="Ver cliente" arrow>
-                      <IconButton
-                        size="small"
-                        color="primary"
-                        onClick={() => navigate(`/admin/clients/${client.id}`)}
-                      >
-                        <Eye className="h-4 w-4" />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
-              ))}
-
-              {filteredClients.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={7}>
-                    <Typography
-                      variant="body1"
-                      align="center"
-                      sx={{ py: 3, color: "text.secondary" }}
+          <tbody>
+            {filteredClients.map((client) => (
+              <tr
+                key={client.id}
+                className="text-sm transition hover:bg-slate-50 dark:hover:bg-slate-800/40 border-b border-slate-200 dark:border-slate-700 cursor-pointer"
+                onClick={() => navigate(`/admin/clients/${client.id}`)}
+              >
+                <td className="px-3 py-3 text-slate-500 dark:text-slate-400">{client.id}</td>
+                <td className="px-3 py-3 text-slate-900 dark:text-slate-50">{client.companyName}</td>
+                <td className="px-3 py-3 text-slate-700 dark:text-slate-200">{client.cif}</td>
+                <td className="px-3 py-3 text-slate-700 dark:text-slate-200">
+                  <span className="block truncate" title={client.email}>
+                    {client.email}
+                  </span>
+                </td>
+                <td className="px-3 py-3 text-slate-700 dark:text-slate-200">{client.phoneNumber}</td>
+                <td className="px-3 py-3">
+                  <ClientStatusChip status={client.status} />
+                </td>
+                <td className="px-3 py-3">
+                  <div className="flex items-center justify-center">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/admin/clients/${client.id}`);
+                      }}
+                      className="inline-flex items-center justify-center rounded-lg p-2 text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800/50 transition"
+                      aria-label="Ver cliente"
                     >
-                      No se han encontrado clientes con ese criterio de búsqueda.
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
+                      <Eye className="h-4 w-4" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
 
-          </Table>
-        </TableContainer>
+            {filteredClients.length === 0 && (
+              <tr>
+                <td
+                  colSpan={7}
+                  className="py-8 text-center text-sm text-slate-500 dark:text-slate-400"
+                >
+                  No se han encontrado clientes con ese criterio de búsqueda.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </Box>
   );

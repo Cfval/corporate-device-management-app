@@ -6,12 +6,6 @@ import {
   Box,
   CircularProgress,
   Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  TableContainer,
   Button,
 } from "@mui/material";
 import {
@@ -30,6 +24,9 @@ import { getClients } from "../../api/clients";
 import type { SystemReport } from "../../types/Reports";
 import type { Client } from "../../types/Client";
 import { ClientStatusChip } from "../../components/ui/ClientStatusChip";
+import usersIcon from "../../assets/icons/users.svg";
+import deviceIcon from "../../assets/icons/device.svg";
+import linesIcon from "../../assets/icons/lines.svg";
 
 interface ClientLinePoint {
   id: number;
@@ -224,10 +221,25 @@ const AdminDashboard = () => {
         transition={{ duration: 0.2, delay: 0.03 }}
         className="grid gap-4 md:gap-5 md:grid-cols-2 xl:grid-cols-4"
       >
-        <KpiCard label="Clientes totales" value={totalClients} accent="from-sky-400/70 to-sky-500/80" />
-        <KpiCard label="Usuarios totales" value={totalUsers} accent="from-indigo-400/70 to-indigo-500/80" />
-        <KpiCard label="Dispositivos totales" value={totalDevices} accent="from-emerald-400/70 to-emerald-500/80" />
-        <KpiCard label="Líneas totales" value={totalLines} accent="from-amber-400/70 to-amber-500/80" />
+        <KpiCard label="Clientes totales" value={totalClients} />
+        <KpiCard
+          label="Usuarios totales"
+          value={totalUsers}
+          iconSrc={usersIcon}
+          iconAlt="Usuarios"
+        />
+        <KpiCard
+          label="Dispositivos totales"
+          value={totalDevices}
+          iconSrc={deviceIcon}
+          iconAlt="Dispositivos"
+        />
+        <KpiCard
+          label="Líneas totales"
+          value={totalLines}
+          iconSrc={linesIcon}
+          iconAlt="Líneas"
+        />
       </motion.div>
 
       {/* Tabla + Gráfico */}
@@ -253,77 +265,55 @@ const AdminDashboard = () => {
           </div>
 
           {clients.length > 0 ? (
-            <TableContainer component="div" className="bg-white dark:bg-slate-900 rounded-lg">
-              <Table size="small" className="text-slate-700 dark:text-slate-200">
-                <TableHead className="bg-slate-50 dark:bg-slate-900">
-                  <TableRow>
-                    <TableCell className="text-slate-700 dark:text-slate-300">
-                      <strong>ID</strong>
-                    </TableCell>
-                    <TableCell className="text-slate-700 dark:text-slate-300">
-                      <strong>Nombre</strong>
-                    </TableCell>
-                    <TableCell className="text-slate-700 dark:text-slate-300">
-                      <strong>Email</strong>
-                    </TableCell>
-                    <TableCell className="text-slate-700 dark:text-slate-300">
-                      <strong>Teléfono</strong>
-                    </TableCell>
-                    <TableCell className="text-slate-700 dark:text-slate-300">
-                      <strong>Estado</strong>
-                    </TableCell>
-                    <TableCell align="right" className="text-slate-700 dark:text-slate-300">
-                      <strong>Acciones</strong>
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody className="bg-white dark:bg-slate-900">
+            <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
+              <table className="w-full border-collapse text-slate-700 dark:text-slate-200">
+                <thead className="bg-slate-50 dark:bg-slate-800/50">
+                  <tr className="text-left text-sm text-slate-600 dark:text-slate-300">
+                    <th className="px-3 py-3 font-semibold">ID</th>
+                    <th className="px-3 py-3 font-semibold">Nombre</th>
+                    <th className="px-3 py-3 font-semibold">Email</th>
+                    <th className="px-3 py-3 font-semibold">Teléfono</th>
+                    <th className="px-3 py-3 font-semibold">Estado</th>
+                    <th className="px-3 py-3 font-semibold text-center">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
                   {clients.map((client) => (
-                    <TableRow
+                    <tr
                       key={client.id}
-                      hover
-                      sx={{
-                        cursor: "pointer",
-                        "&:hover": {
-                          backgroundColor: "rgba(148, 163, 184, 0.08)",
-                        },
-                      }}
+                      className="text-sm transition hover:bg-slate-50 dark:hover:bg-slate-800/40 border-b border-slate-200 dark:border-slate-700 cursor-pointer"
                       onClick={() => navigate(`/admin/clients/${client.id}`)}
                     >
-                      <TableCell className="text-slate-700 dark:text-slate-200">{client.id}</TableCell>
-                      <TableCell className="text-slate-700 dark:text-slate-200">{client.companyName}</TableCell>
-                      <TableCell
-                        sx={{
-                          maxWidth: 220,
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                        }}
-                        title={client.email}
-                      >
-                        <span className="text-slate-700 dark:text-slate-200">{client.email}</span>
-                      </TableCell>
-                      <TableCell className="text-slate-700 dark:text-slate-200">{client.phoneNumber}</TableCell>
-                      <TableCell>
+                      <td className="px-3 py-3 text-slate-500 dark:text-slate-400">{client.id}</td>
+                      <td className="px-3 py-3 text-slate-900 dark:text-slate-50">{client.companyName}</td>
+                      <td className="px-3 py-3 text-slate-700 dark:text-slate-200">
+                        <span className="block truncate" title={client.email}>
+                          {client.email}
+                        </span>
+                      </td>
+                      <td className="px-3 py-3 text-slate-700 dark:text-slate-200">{client.phoneNumber}</td>
+                      <td className="px-3 py-3">
                         <ClientStatusChip status={client.status} />
-                      </TableCell>
-                      <TableCell
-                        align="right"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          onClick={() => navigate(`/admin/clients/${client.id}`)}
-                        >
-                          Ver
-                        </Button>
-                      </TableCell>
-                    </TableRow>
+                      </td>
+                      <td className="px-3 py-3">
+                        <div className="flex items-center justify-center">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/admin/clients/${client.id}`);
+                            }}
+                            className="inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800/50 transition"
+                          >
+                            Ver
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
                   ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                </tbody>
+              </table>
+            </div>
           ) : (
             <div className="py-6 text-center text-sm text-slate-500">
               No hay clientes registrados.
@@ -391,25 +381,41 @@ const AdminDashboard = () => {
 interface KpiCardProps {
   label: string;
   value: number;
-  accent: string; // tailwind gradient utilities
+  iconSrc?: string;
+  iconAlt?: string;
 }
 
-const KpiCard = ({ label, value, accent }: KpiCardProps) => (
+const KpiCard = ({
+  label,
+  value,
+  iconSrc,
+  iconAlt,
+}: KpiCardProps) => (
   <motion.div
     whileHover={{ y: -4, scale: 1.01 }}
     transition={{ type: "spring", stiffness: 260, damping: 20 }}
     className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white px-4 py-3.5 shadow-lg shadow-slate-200/60 dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/30"
   >
-    <div
-      className={`pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gradient-to-br ${accent} opacity-60`}
-    />
-    <div className="relative flex flex-col gap-1">
-      <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
-        {label}
-      </span>
-      <span className="text-3xl font-semibold leading-tight text-slate-900 dark:text-slate-50">
-        {value.toLocaleString("es-ES")}
-      </span>
+    <div className="relative flex items-center gap-4">
+      <div className="flex flex-col gap-1">
+        <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+          {label}
+        </span>
+        <span className="text-3xl font-semibold leading-tight text-slate-900 dark:text-slate-50">
+          {value.toLocaleString("es-ES")}
+        </span>
+      </div>
+
+      {iconSrc && (
+        <div className="ml-auto pr-2">
+          <img
+            src={iconSrc}
+            alt={iconAlt ?? ""}
+            className="h-16 w-16 opacity-95"
+            aria-hidden={iconAlt ? undefined : true}
+          />
+        </div>
+      )}
     </div>
   </motion.div>
 );

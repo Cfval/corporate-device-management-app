@@ -78,7 +78,7 @@ const ClientEditPage = () => {
         initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.2 }}
-        className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800"
+        className="rounded-2xl border border-slate-200/70 bg-slate-50/70 p-6 shadow-sm backdrop-blur-md dark:border-slate-700/80 dark:bg-slate-900/50"
       >
         <ClientEditForm
           form={form}

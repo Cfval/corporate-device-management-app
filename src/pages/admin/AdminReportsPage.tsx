@@ -38,6 +38,9 @@ import type {
 } from "../../types/Reports";
 import type { Line } from "../../types/Line";
 import type { User } from "../../types/User";
+import usersIcon from "../../assets/icons/users.svg";
+import deviceIcon from "../../assets/icons/device.svg";
+import linesIcon from "../../assets/icons/lines.svg";
 
 const PIE_COLORS = ["#1976d2", "#26a69a", "#ffb74d", "#ef5350", "#7e57c2", "#26c6da"];
 
@@ -228,9 +231,24 @@ const AdminReportsPage = () => {
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <SummaryCard title="Total Clientes" value={systemReport?.totalClients ?? "-"} />
-          <SummaryCard title="Total Usuarios" value={systemReport?.totalUsers ?? "-"} />
-          <SummaryCard title="Total Dispositivos" value={systemReport?.totalDevices ?? "-"} />
-          <SummaryCard title="Total Líneas" value={systemReport?.totalLines ?? "-"} />
+          <SummaryCard
+            title="Total Usuarios"
+            value={systemReport?.totalUsers ?? "-"}
+            iconSrc={usersIcon}
+            iconAlt="Usuarios"
+          />
+          <SummaryCard
+            title="Total Dispositivos"
+            value={systemReport?.totalDevices ?? "-"}
+            iconSrc={deviceIcon}
+            iconAlt="Dispositivos"
+          />
+          <SummaryCard
+            title="Total Líneas"
+            value={systemReport?.totalLines ?? "-"}
+            iconSrc={linesIcon}
+            iconAlt="Líneas"
+          />
         </div>
       </div>
 
@@ -257,9 +275,40 @@ const AdminReportsPage = () => {
             }}
             disabled={loadingClients}
             sx={{
-              "& .MuiOutlinedInput-root": { color: "text.primary" },
-              "& .MuiInputLabel-root": { color: "text.secondary" },
-              "& .MuiSvgIcon-root": { color: "text.primary" },
+              "& .MuiOutlinedInput-root": {
+                color: "inherit",
+                backgroundColor: "transparent",
+              },
+              "& .MuiOutlinedInput-input": { color: "inherit" },
+              "& .MuiSelect-select": { color: "inherit" },
+
+              "& .MuiInputLabel-root": { color: "rgba(100,116,139,1)" }, // slate-500
+
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "rgba(148,163,184,0.55)", // slate-400/55
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "rgba(148,163,184,0.85)", // slate-400/85
+              },
+              "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "rgba(56,189,248,0.9)", // sky-400
+              },
+
+              "& .MuiSvgIcon-root": { color: "currentColor" },
+
+              "html.dark & .MuiOutlinedInput-root": {
+                color: "rgba(241,245,249,1)", // slate-100
+              },
+              "html.dark & .MuiInputLabel-root": { color: "rgba(203,213,225,1)" }, // slate-300
+              "html.dark & .MuiOutlinedInput-notchedOutline": {
+                borderColor: "rgba(51,65,85,1)", // slate-700
+              },
+              "html.dark &:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "rgba(71,85,105,1)", // slate-600
+              },
+              "html.dark & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "rgba(56,189,248,0.9)", // sky-400
+              },
             }}
           >
             <MenuItem value="" className="dark:bg-slate-800 dark:text-slate-100">
@@ -468,12 +517,31 @@ const KpiBadge = ({ label, value, color = "primary" }: KpiBadgeProps) => (
 interface SummaryCardProps {
   title: string;
   value: number | string;
+  iconSrc?: string;
+  iconAlt?: string;
 }
 
-const SummaryCard = ({ title, value }: SummaryCardProps) => (
+const SummaryCard = ({ title, value, iconSrc, iconAlt }: SummaryCardProps) => (
   <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
-    <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">{title}</p>
-    <p className="text-2xl font-semibold text-slate-900 dark:text-white">{value}</p>
+    <div className="flex items-center justify-between gap-4">
+      <div className="min-w-0">
+        <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          {title}
+        </p>
+        <p className="text-2xl font-semibold text-slate-900 dark:text-white">{value}</p>
+      </div>
+
+      {iconSrc && (
+        <div className="ml-auto pr-1">
+          <img
+            src={iconSrc}
+            alt={iconAlt ?? ""}
+            className="h-12 w-12 opacity-95"
+            aria-hidden={iconAlt ? undefined : true}
+          />
+        </div>
+      )}
+    </div>
   </div>
 );
 

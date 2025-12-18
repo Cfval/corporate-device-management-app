@@ -13,21 +13,12 @@ import { OperatorChip } from "../../components/ui/OperatorChip";
 import { LineDetailsModal } from "../../components/lines/LineDetailsModal";
 
 // Icons
-import { Eye } from "lucide-react";
+import { Eye, Search } from "lucide-react";
 
 // MUI
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
 
 const AdminClientLinesPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -111,84 +102,82 @@ const AdminClientLinesPage = () => {
           Líneas del Cliente
         </Typography>
 
-        <TextField
-          label="Buscar líneas"
-          variant="outlined"
-          size="small"
-          value={search}
-          onChange={handleSearchChange}
-          sx={{
-            minWidth: 240,
-            "& .MuiOutlinedInput-root": { color: "text.primary" },
-            "& .MuiInputLabel-root": { color: "text.secondary" },
-          }}
-        />
+        <div className="relative">
+          <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
+            <Search className="h-4 w-4 text-slate-400" />
+          </span>
+          <input
+            type="text"
+            value={search}
+            onChange={handleSearchChange}
+            placeholder="Buscar líneas"
+            aria-label="Buscar líneas"
+            className="w-72 max-w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm text-slate-800 shadow-sm outline-none ring-0 transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:focus:border-sky-500 dark:focus:ring-sky-900/40"
+          />
+        </div>
       </div>
 
       {/* Table */}
-      <TableContainer
-        component={Paper}
-        elevation={1}
-        className="rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900"
-      >
-        <Table className="text-slate-700 dark:text-slate-200">
-          <TableHead className="bg-slate-50 dark:bg-slate-900">
-            <TableRow>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>ID</strong></TableCell>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Número</strong></TableCell>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Tarifa</strong></TableCell>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Estado</strong></TableCell>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Operador</strong></TableCell>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Empleado</strong></TableCell>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Dispositivo</strong></TableCell>
-              <TableCell align="right" className="text-slate-700 dark:text-slate-300"><strong>Acciones</strong></TableCell>
-            </TableRow>
-          </TableHead>
+      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
+        <table className="w-full border-collapse text-slate-700 dark:text-slate-200">
+          <thead className="bg-slate-50 dark:bg-slate-800/50">
+            <tr className="text-left text-sm text-slate-600 dark:text-slate-300">
+              <th className="px-3 py-3 font-semibold">ID</th>
+              <th className="px-3 py-3 font-semibold">Número</th>
+              <th className="px-3 py-3 font-semibold">Tarifa</th>
+              <th className="px-3 py-3 font-semibold">Estado</th>
+              <th className="px-3 py-3 font-semibold">Operador</th>
+              <th className="px-3 py-3 font-semibold">Empleado</th>
+              <th className="px-3 py-3 font-semibold">Dispositivo</th>
+              <th className="px-3 py-3 font-semibold text-center">Acciones</th>
+            </tr>
+          </thead>
 
-          <TableBody className="bg-white dark:bg-slate-900">
+          <tbody>
             {filteredLines.map((l) => (
-              <TableRow key={l.id} hover>
-                <TableCell className="text-slate-700 dark:text-slate-200">{l.id}</TableCell>
-                <TableCell className="text-slate-700 dark:text-slate-200">{l.phoneNumber}</TableCell>
-                <TableCell className="text-slate-700 dark:text-slate-200">{l.tariffType}</TableCell>
-                <TableCell>
+              <tr
+                key={l.id}
+                className="text-sm transition hover:bg-slate-50 dark:hover:bg-slate-800/40 border-b border-slate-200 dark:border-slate-700"
+              >
+                <td className="px-3 py-3 text-slate-500 dark:text-slate-400">{l.id}</td>
+                <td className="px-3 py-3 text-slate-700 dark:text-slate-200">{l.phoneNumber}</td>
+                <td className="px-3 py-3 text-slate-700 dark:text-slate-200">{l.tariffType}</td>
+                <td className="px-3 py-3">
                   <LineStatusChip status={l.status} />
-                </TableCell>
-                <TableCell>
+                </td>
+                <td className="px-3 py-3">
                   <OperatorChip operator={l.operator} />
-                </TableCell>
-                <TableCell className="text-slate-700 dark:text-slate-200">{l.employeeId ?? "—"}</TableCell>
-                <TableCell className="text-slate-700 dark:text-slate-200">{l.deviceId ?? "—"}</TableCell>
-
-                {/* Eye button actions */}
-                <TableCell align="right">
-                  <IconButton
-                    onClick={() => openDetails(l)}
-                    className="hover:bg-slate-200 dark:hover:bg-slate-800 p-1"
-                  >
-                    <Eye size={18} className="text-slate-600 dark:text-slate-200" />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
+                </td>
+                <td className="px-3 py-3 text-slate-700 dark:text-slate-200">{l.employeeId ?? "—"}</td>
+                <td className="px-3 py-3 text-slate-700 dark:text-slate-200">{l.deviceId ?? "—"}</td>
+                <td className="px-3 py-3">
+                  <div className="flex items-center justify-center">
+                    <button
+                      type="button"
+                      onClick={() => openDetails(l)}
+                      className="inline-flex items-center justify-center rounded-lg p-2 text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800/50 transition"
+                      aria-label="Ver detalles de la línea"
+                    >
+                      <Eye className="h-4 w-4" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
             ))}
 
             {filteredLines.length === 0 && (
-              <TableRow>
-                <TableCell colSpan={8}>
-                  <Typography
-                    variant="body1"
-                    align="center"
-                    sx={{ py: 3 }}
-                    color="text.secondary"
-                  >
-                    No se han encontrado líneas con ese criterio de búsqueda.
-                  </Typography>
-                </TableCell>
-              </TableRow>
+              <tr>
+                <td
+                  colSpan={8}
+                  className="py-8 text-center text-sm text-slate-500 dark:text-slate-400"
+                >
+                  No se han encontrado líneas con ese criterio de búsqueda.
+                </td>
+              </tr>
             )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          </tbody>
+        </table>
+      </div>
 
       {/* Modal */}
       <LineDetailsModal

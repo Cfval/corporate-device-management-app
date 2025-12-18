@@ -33,6 +33,9 @@ const AdminLayout = () => {
             "& .MuiDrawer-paper": {
               width: drawerWidth,
               boxSizing: "border-box",
+              backgroundColor: "transparent",
+              borderRight: "none",
+              boxShadow: "none",
             },
           }}
         >
@@ -53,6 +56,9 @@ const AdminLayout = () => {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
+            backgroundColor: "transparent",
+            borderRight: "none",
+            boxShadow: "none",
           },
         }}
       >

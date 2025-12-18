@@ -1,4 +1,3 @@
-// src/pages/client/ClientDashboard/RecentLines.tsx
 import { Card, CardContent, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import type { Line } from "../../../types/Line";
@@ -19,7 +18,7 @@ const RecentLines = ({ lines }: RecentLinesProps) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, delay: 0.05 }}
     >
-      <Card className="h-full rounded-3xl border border-slate-200/70 bg-white shadow-sm backdrop-blur-sm dark:border-slate-700/80 dark:bg-slate-900">
+      <Card className="h-full rounded-3xl border border-slate-200/70 !bg-white shadow-sm backdrop-blur-sm dark:border-slate-700/80 dark:!bg-slate-900">
         <CardContent className="flex h-full flex-col gap-4 p-5 sm:p-6">
           <div className="flex items-center justify-between gap-2">
             <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-50">

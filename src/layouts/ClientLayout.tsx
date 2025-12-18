@@ -30,6 +30,9 @@ const ClientLayout = () => {
             "& .MuiDrawer-paper": {
               width: drawerWidth,
               boxSizing: "border-box",
+              backgroundColor: "transparent",
+              borderRight: "none",
+              boxShadow: "none",
             },
           }}
         >
@@ -48,6 +51,9 @@ const ClientLayout = () => {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
+            backgroundColor: "transparent",
+            borderRight: "none",
+            boxShadow: "none",
           },
         }}
       >

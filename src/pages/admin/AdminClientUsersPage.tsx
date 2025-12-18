@@ -7,19 +7,11 @@ import type { User } from "../../types/User";
 
 import { UserStatusChip } from "../../components/ui/UserStatusChip";
 import { UserRoleChip } from "../../components/ui/UserRoleChip";
-
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
+import { Search } from "lucide-react";
 
 const AdminClientUsersPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -89,89 +81,77 @@ const AdminClientUsersPage = () => {
           Usuarios del Cliente
         </Typography>
 
-        <TextField
-          label="Buscar usuarios"
-          variant="outlined"
-          size="small"
-          value={search}
-          onChange={handleSearchChange}
-          sx={{
-            minWidth: 240,
-            "& .MuiOutlinedInput-root": { color: "text.primary" },
-            "& .MuiInputLabel-root": { color: "text.secondary" },
-          }}
-        />
+        <div className="relative">
+          <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
+            <Search className="h-4 w-4 text-slate-400" />
+          </span>
+          <input
+            type="text"
+            value={search}
+            onChange={handleSearchChange}
+            placeholder="Buscar usuarios"
+            aria-label="Buscar usuarios"
+            className="w-72 max-w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm text-slate-800 shadow-sm outline-none ring-0 transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:focus:border-sky-500 dark:focus:ring-sky-900/40"
+          />
+        </div>
       </div>
 
       {/* Tabla */}
-      <TableContainer
-        component={Paper}
-        elevation={1}
-        className="rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900"
-      >
-        <Table className="text-slate-700 dark:text-slate-200">
-          <TableHead className="bg-slate-50 dark:bg-slate-900">
-            <TableRow>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>ID</strong></TableCell>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Nombre</strong></TableCell>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Email</strong></TableCell>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Departamento</strong></TableCell>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Estado</strong></TableCell>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Rol</strong></TableCell>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Registro</strong></TableCell>
-            </TableRow>
-          </TableHead>
+      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
+        <table className="w-full border-collapse text-slate-700 dark:text-slate-200">
+          <thead className="bg-slate-50 dark:bg-slate-800/50">
+            <tr className="text-left text-sm text-slate-600 dark:text-slate-300">
+              <th className="px-3 py-3 font-semibold">ID</th>
+              <th className="px-3 py-3 font-semibold">Nombre</th>
+              <th className="px-3 py-3 font-semibold">Email</th>
+              <th className="px-3 py-3 font-semibold">Departamento</th>
+              <th className="px-3 py-3 font-semibold">Estado</th>
+              <th className="px-3 py-3 font-semibold">Rol</th>
+              <th className="px-3 py-3 font-semibold">Registro</th>
+            </tr>
+          </thead>
 
-          <TableBody className="bg-white dark:bg-slate-900">
+          <tbody>
             {filteredUsers.map((u) => (
-              <TableRow key={u.id} hover>
-                <TableCell className="text-slate-700 dark:text-slate-200">{u.id}</TableCell>
-                <TableCell className="text-slate-700 dark:text-slate-200">{u.fullName}</TableCell>
-
-                <TableCell
-                  sx={{
-                    maxWidth: 220,
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                  title={u.email}
-                >
-                  <span className="text-slate-700 dark:text-slate-200">{u.email}</span>
-                </TableCell>
-
-                <TableCell className="text-slate-700 dark:text-slate-200">{u.department || "—"}</TableCell>
-
-                <TableCell>
+              <tr
+                key={u.id}
+                className="text-sm transition hover:bg-slate-50 dark:hover:bg-slate-800/40 border-b border-slate-200 dark:border-slate-700"
+              >
+                <td className="px-3 py-3 text-slate-500 dark:text-slate-400">{u.id}</td>
+                <td className="px-3 py-3 text-slate-900 dark:text-slate-50">{u.fullName}</td>
+                <td className="px-3 py-3 text-slate-700 dark:text-slate-200">
+                  <span className="block truncate" title={u.email}>
+                    {u.email}
+                  </span>
+                </td>
+                <td className="px-3 py-3 text-slate-700 dark:text-slate-200">
+                  {u.department || "—"}
+                </td>
+                <td className="px-3 py-3">
                   <UserStatusChip status={u.status} />
-                </TableCell>
-
-                <TableCell>
+                </td>
+                <td className="px-3 py-3">
                   <UserRoleChip role={u.role} />
-                </TableCell>
-
-                <TableCell className="text-slate-700 dark:text-slate-200">
+                </td>
+                <td className="px-3 py-3 text-slate-500 dark:text-slate-400">
                   {new Date(u.registrationDate).toLocaleDateString()}
-                </TableCell>
-              </TableRow>
+                </td>
+              </tr>
             ))}
 
             {filteredUsers.length === 0 && (
-              <TableRow>
-                <TableCell colSpan={7}>
-                  <Typography
-                    variant="body1"
-                    align="center"
-                    sx={{ py: 3, color: "text.secondary" }}
-                  >
-                    No se han encontrado usuarios con ese criterio de búsqueda.
-                  </Typography>
-                </TableCell>
-              </TableRow>
+              <tr>
+                <td
+                  colSpan={7}
+                  className="py-8 text-center text-sm text-slate-500 dark:text-slate-400"
+                >
+                  No se han encontrado usuarios con ese criterio de búsqueda.
+                </td>
+              </tr>
             )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

@@ -2,3 +2,21 @@
 
 @config "../tailwind.config.js";
 
+
+/* MUI inyecta CSS en tiempo de carga que se superpone a Tailwind, así que se usa !important. */
+html.dark .MuiChip-root.MuiChip-colorDefault {
+  color: rgb(226, 232, 240) !important; /* slate-200 */
+  background-color: rgba(148, 163, 184, 0.16) !important; /* slate-ish */
+}
+
+html.dark .MuiChip-root.MuiChip-outlinedDefault {
+  color: rgb(226, 232, 240) !important; /* slate-200 */
+  background-color: transparent !important;
+  border-color: rgb(51, 65, 85) !important; /* slate-700 */
+}
+
+html.dark .MuiChip-root.MuiChip-colorDefault .MuiChip-label,
+html.dark .MuiChip-root.MuiChip-outlinedDefault .MuiChip-label {
+  color: inherit !important;
+}
+

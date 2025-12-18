@@ -2,12 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   CircularProgress,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  TableContainer,
   Button,
   Divider,
   Typography,
@@ -236,31 +230,41 @@ const AdminClientDetailPage = () => {
         <Divider className="my-3" />
 
         {topUsers.length > 0 ? (
-          <TableContainer className="bg-white dark:bg-slate-800 rounded-lg">
-            <Table size="small" className="text-slate-700 dark:text-slate-200">
-              <TableHead className="bg-slate-50 dark:bg-slate-900">
-                <TableRow>
-                  <TableCell className="text-slate-700 dark:text-slate-300">ID</TableCell>
-                  <TableCell className="text-slate-700 dark:text-slate-300">Nombre</TableCell>
-                  <TableCell className="text-slate-700 dark:text-slate-300">Email</TableCell>
-                  <TableCell className="text-slate-700 dark:text-slate-300">Estado</TableCell>
-                  <TableCell className="text-slate-700 dark:text-slate-300">Rol</TableCell>
-                </TableRow>
-              </TableHead>
-
-              <TableBody className="bg-white dark:bg-slate-800">
+          <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
+            <table className="w-full border-collapse text-slate-700 dark:text-slate-200">
+              <thead className="bg-slate-50 dark:bg-slate-800/50">
+                <tr className="text-left text-sm text-slate-600 dark:text-slate-300">
+                  <th className="px-3 py-3 font-semibold">ID</th>
+                  <th className="px-3 py-3 font-semibold">Nombre</th>
+                  <th className="px-3 py-3 font-semibold">Email</th>
+                  <th className="px-3 py-3 font-semibold">Estado</th>
+                  <th className="px-3 py-3 font-semibold">Rol</th>
+                </tr>
+              </thead>
+              <tbody>
                 {topUsers.map((u) => (
-                  <TableRow key={u.id} hover>
-                    <TableCell className="text-slate-700 dark:text-slate-200">{u.id}</TableCell>
-                    <TableCell className="text-slate-700 dark:text-slate-200">{u.fullName}</TableCell>
-                    <TableCell className="text-slate-700 dark:text-slate-200">{u.email}</TableCell>
-                    <TableCell><UserStatusChip status={u.status} /></TableCell>
-                    <TableCell><UserRoleChip role={u.role} /></TableCell>
-                  </TableRow>
+                  <tr
+                    key={u.id}
+                    className="text-sm transition hover:bg-slate-50 dark:hover:bg-slate-800/40 border-b border-slate-200 dark:border-slate-700"
+                  >
+                    <td className="px-3 py-3 text-slate-500 dark:text-slate-400">{u.id}</td>
+                    <td className="px-3 py-3 text-slate-900 dark:text-slate-50">{u.fullName}</td>
+                    <td className="px-3 py-3 text-slate-700 dark:text-slate-200">
+                      <span className="block truncate" title={u.email}>
+                        {u.email}
+                      </span>
+                    </td>
+                    <td className="px-3 py-3">
+                      <UserStatusChip status={u.status} />
+                    </td>
+                    <td className="px-3 py-3">
+                      <UserRoleChip role={u.role} />
+                    </td>
+                  </tr>
                 ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+              </tbody>
+            </table>
+          </div>
         ) : (
           <p className="text-slate-500 dark:text-slate-300">No hay usuarios registrados</p>
         )}
@@ -283,31 +287,37 @@ const AdminClientDetailPage = () => {
         <Divider className="my-3" />
 
         {topDevices.length > 0 ? (
-          <TableContainer className="bg-white dark:bg-slate-800 rounded-lg">
-            <Table size="small" className="text-slate-700 dark:text-slate-200">
-              <TableHead className="bg-slate-50 dark:bg-slate-900">
-                <TableRow>
-                  <TableCell className="text-slate-700 dark:text-slate-300">ID</TableCell>
-                  <TableCell className="text-slate-700 dark:text-slate-300">Tipo</TableCell>
-                  <TableCell className="text-slate-700 dark:text-slate-300">Marca</TableCell>
-                  <TableCell className="text-slate-700 dark:text-slate-300">Estado</TableCell>
-                  <TableCell className="text-slate-700 dark:text-slate-300">Empleado</TableCell>
-                </TableRow>
-              </TableHead>
-
-              <TableBody className="bg-white dark:bg-slate-800">
+          <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
+            <table className="w-full border-collapse text-slate-700 dark:text-slate-200">
+              <thead className="bg-slate-50 dark:bg-slate-800/50">
+                <tr className="text-left text-sm text-slate-600 dark:text-slate-300">
+                  <th className="px-3 py-3 font-semibold">ID</th>
+                  <th className="px-3 py-3 font-semibold">Tipo</th>
+                  <th className="px-3 py-3 font-semibold">Marca</th>
+                  <th className="px-3 py-3 font-semibold">Estado</th>
+                  <th className="px-3 py-3 font-semibold">Empleado</th>
+                </tr>
+              </thead>
+              <tbody>
                 {topDevices.map((d) => (
-                  <TableRow key={d.id} hover>
-                    <TableCell className="text-slate-700 dark:text-slate-200">{d.id}</TableCell>
-                    <TableCell className="text-slate-700 dark:text-slate-200">{translate("type", d.type ?? "")}</TableCell>
-                    <TableCell className="text-slate-700 dark:text-slate-200">{d.brand}</TableCell>
-                    <TableCell><DeviceStatusChip status={d.status} /></TableCell>
-                    <TableCell className="text-slate-700 dark:text-slate-200">{d.employeeId ?? "—"}</TableCell>
-                  </TableRow>
+                  <tr
+                    key={d.id}
+                    className="text-sm transition hover:bg-slate-50 dark:hover:bg-slate-800/40 border-b border-slate-200 dark:border-slate-700"
+                  >
+                    <td className="px-3 py-3 text-slate-500 dark:text-slate-400">{d.id}</td>
+                    <td className="px-3 py-3 text-slate-700 dark:text-slate-200">
+                      {translate("type", d.type ?? "")}
+                    </td>
+                    <td className="px-3 py-3 text-slate-700 dark:text-slate-200">{d.brand}</td>
+                    <td className="px-3 py-3">
+                      <DeviceStatusChip status={d.status} />
+                    </td>
+                    <td className="px-3 py-3 text-slate-700 dark:text-slate-200">{d.employeeId ?? "—"}</td>
+                  </tr>
                 ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+              </tbody>
+            </table>
+          </div>
         ) : (
           <p className="text-slate-500 dark:text-slate-300">No hay dispositivos registrados</p>
         )}
@@ -330,31 +340,37 @@ const AdminClientDetailPage = () => {
         <Divider className="my-3" />
 
         {topLines.length > 0 ? (
-          <TableContainer className="bg-white dark:bg-slate-800 rounded-lg">
-            <Table size="small" className="text-slate-700 dark:text-slate-200">
-              <TableHead className="bg-slate-50 dark:bg-slate-900">
-                <TableRow>
-                  <TableCell className="text-slate-700 dark:text-slate-300">ID</TableCell>
-                  <TableCell className="text-slate-700 dark:text-slate-300">Número</TableCell>
-                  <TableCell className="text-slate-700 dark:text-slate-300">Estado</TableCell>
-                  <TableCell className="text-slate-700 dark:text-slate-300">Operador</TableCell>
-                  <TableCell className="text-slate-700 dark:text-slate-300">Empleado</TableCell>
-                </TableRow>
-              </TableHead>
-
-              <TableBody className="bg-white dark:bg-slate-800">
+          <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
+            <table className="w-full border-collapse text-slate-700 dark:text-slate-200">
+              <thead className="bg-slate-50 dark:bg-slate-800/50">
+                <tr className="text-left text-sm text-slate-600 dark:text-slate-300">
+                  <th className="px-3 py-3 font-semibold">ID</th>
+                  <th className="px-3 py-3 font-semibold">Número</th>
+                  <th className="px-3 py-3 font-semibold">Estado</th>
+                  <th className="px-3 py-3 font-semibold">Operador</th>
+                  <th className="px-3 py-3 font-semibold">Empleado</th>
+                </tr>
+              </thead>
+              <tbody>
                 {topLines.map((line) => (
-                  <TableRow key={line.id} hover>
-                    <TableCell className="text-slate-700 dark:text-slate-200">{line.id}</TableCell>
-                    <TableCell className="text-slate-700 dark:text-slate-200">{line.phoneNumber}</TableCell>
-                    <TableCell><LineStatusChip status={line.status} /></TableCell>
-                    <TableCell><OperatorChip operator={line.operator} /></TableCell>
-                    <TableCell className="text-slate-700 dark:text-slate-200">{line.employeeId ?? "—"}</TableCell>
-                  </TableRow>
+                  <tr
+                    key={line.id}
+                    className="text-sm transition hover:bg-slate-50 dark:hover:bg-slate-800/40 border-b border-slate-200 dark:border-slate-700"
+                  >
+                    <td className="px-3 py-3 text-slate-500 dark:text-slate-400">{line.id}</td>
+                    <td className="px-3 py-3 text-slate-700 dark:text-slate-200">{line.phoneNumber}</td>
+                    <td className="px-3 py-3">
+                      <LineStatusChip status={line.status} />
+                    </td>
+                    <td className="px-3 py-3">
+                      <OperatorChip operator={line.operator} />
+                    </td>
+                    <td className="px-3 py-3 text-slate-700 dark:text-slate-200">{line.employeeId ?? "—"}</td>
+                  </tr>
                 ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+              </tbody>
+            </table>
+          </div>
         ) : (
           <p className="text-slate-500 dark:text-slate-300">No hay líneas registradas</p>
         )}

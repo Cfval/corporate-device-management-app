@@ -61,6 +61,55 @@ const UserFormDialog: FC<UserFormDialogProps> = ({
   onChangeField,
   onSave,
 }) => {
+  const textFieldSx = {
+    "& .MuiOutlinedInput-root": {
+      color: "inherit",
+      backgroundColor: "transparent",
+    },
+    "& .MuiOutlinedInput-input": { color: "inherit" },
+    "& .MuiSelect-select": { color: "inherit" },
+    "& .MuiInputLabel-root": { color: "rgba(100,116,139,1)" }, // slate-500
+    "& .MuiFormHelperText-root": { color: "rgba(100,116,139,1)" }, // slate-500
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: "rgba(148,163,184,0.55)", // slate-400/55
+    },
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "rgba(148,163,184,0.85)", // slate-400/85
+    },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "rgba(56,189,248,0.9)", // sky-400
+    },
+    "& .MuiSvgIcon-root": { color: "currentColor" },
+
+    "html.dark & .MuiOutlinedInput-root": {
+      color: "rgba(241,245,249,1)", // slate-100
+    },
+    "html.dark & .MuiInputLabel-root": { color: "rgba(203,213,225,1)" }, // slate-300
+    "html.dark & .MuiFormHelperText-root": { color: "rgba(148,163,184,1)" }, // slate-400
+    "html.dark & .MuiOutlinedInput-notchedOutline": {
+      borderColor: "rgba(51,65,85,1)", // slate-700
+    },
+    "html.dark &:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "rgba(71,85,105,1)", // slate-600
+    },
+    "html.dark & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "rgba(56,189,248,0.9)", // sky-400
+    },
+    "html.dark & .MuiInputBase-input.Mui-disabled": {
+      WebkitTextFillColor: "rgba(203,213,225,0.65)", // slate-300/65
+    },
+  } as const;
+
+  const readOnlyTextFieldSx = {
+    ...textFieldSx,
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: "rgba(148,163,184,0.35)", // slate-400/35
+    },
+    "html.dark & .MuiOutlinedInput-notchedOutline": {
+      borderColor: "rgba(51,65,85,0.65)", // slate-700/65
+    },
+  } as const;
+
   const translatedStatusOptions = useMemo(
     () =>
       STATUS_OPTIONS.map((value) => ({
@@ -80,19 +129,26 @@ const UserFormDialog: FC<UserFormDialogProps> = ({
       disableEnforceFocus={false}
       slotProps={{
         paper: {
-          className: "rounded-xl",
+          className:
+            "rounded-2xl border border-slate-200 bg-white text-slate-900 shadow-xl dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100",
         },
       }}
     >
-      <DialogTitle className="font-semibold text-lg">
+      <DialogTitle className="font-semibold text-lg text-slate-900 dark:text-slate-100 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
         {mode === "create" ? "Crear usuario" : "Editar usuario"}
       </DialogTitle>
 
-      <DialogContent dividers className="space-y-6">
+      <DialogContent dividers className="space-y-6 bg-white dark:bg-slate-900">
         {/* Información fija del usuario si está en modo edición */}
         {mode === "edit" && currentUser && (
           <div className="grid grid-cols-2 gap-4">
-            <TextField label="ID" value={currentUser.id} fullWidth disabled />
+            <TextField
+              label="ID"
+              value={currentUser.id}
+              fullWidth
+              disabled
+              sx={readOnlyTextFieldSx}
+            />
             <TextField
               label="Fecha de registro"
               value={new Date(
@@ -100,6 +156,7 @@ const UserFormDialog: FC<UserFormDialogProps> = ({
               ).toLocaleDateString()}
               fullWidth
               disabled
+              sx={readOnlyTextFieldSx}
             />
           </div>
         )}
@@ -117,6 +174,7 @@ const UserFormDialog: FC<UserFormDialogProps> = ({
             error={Boolean(formErrors.fullName)}
             helperText={formErrors.fullName}
             disabled={saving}
+            sx={textFieldSx}
           />
 
           <TextField
@@ -129,6 +187,7 @@ const UserFormDialog: FC<UserFormDialogProps> = ({
             error={Boolean(formErrors.email)}
             helperText={formErrors.email}
             disabled={saving}
+            sx={textFieldSx}
           />
 
           <TextField
@@ -138,6 +197,7 @@ const UserFormDialog: FC<UserFormDialogProps> = ({
               onChangeField("department", event.target.value)
             }
             disabled={saving}
+            sx={textFieldSx}
           />
 
           <TextField
@@ -150,6 +210,7 @@ const UserFormDialog: FC<UserFormDialogProps> = ({
             error={Boolean(formErrors.role)}
             helperText={formErrors.role}
             disabled={saving}
+            sx={textFieldSx}
           >
             <MenuItem value="">Selecciona un rol</MenuItem>
             {ROLE_OPTIONS.map((option) => (
@@ -169,6 +230,7 @@ const UserFormDialog: FC<UserFormDialogProps> = ({
             error={Boolean(formErrors.status)}
             helperText={formErrors.status}
             disabled={saving}
+            sx={textFieldSx}
           >
             <MenuItem value="">Selecciona un estado</MenuItem>
             {translatedStatusOptions.map((option) => (
@@ -194,6 +256,7 @@ const UserFormDialog: FC<UserFormDialogProps> = ({
                 ? "Cargando líneas..."
                 : "Opcional: asigna una línea existente"
             }
+            sx={textFieldSx}
           >
             <MenuItem value="">Sin asignar</MenuItem>
             {selectableLines.map((line) => (
@@ -205,7 +268,7 @@ const UserFormDialog: FC<UserFormDialogProps> = ({
         </Stack>
       </DialogContent>
 
-      <DialogActions className="px-6 py-4">
+      <DialogActions className="px-6 py-4 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700">
         <MUIButton onClick={onClose} disabled={saving}>
           Cancelar
         </MUIButton>

@@ -1,5 +1,3 @@
-// src/pages/client/ClientDashboard/Header.tsx
-import { Card, CardContent, Chip } from "@mui/material";
 import type { ClientReport, LineUsageReport } from "../../../types/Reports";
 import { motion } from "framer-motion";
 
@@ -11,43 +9,73 @@ interface HeaderProps {
 const Header = ({ clientReport, lineReport }: HeaderProps) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
     >
-      <Card className="relative overflow-hidden rounded-3xl border border-sky-200/70 bg-gradient-to-r from-sky-100/80 via-sky-50/90 to-transparent shadow-sm dark:border-sky-800/60 dark:from-sky-950/60 dark:via-slate-900/80">
-        <CardContent className="relative z-10 space-y-3 p-6 md:p-8">
-          <p className="text-[0.65rem] font-semibold tracking-[0.4em] text-sky-700/80 dark:text-sky-300/80 uppercase">
+      <div
+        className="
+          relative overflow-hidden rounded-2xl
+          border border-slate-200 dark:border-slate-700
+          bg-white/70 dark:bg-slate-900/60
+          backdrop-blur-sm
+          px-6 py-6 md:px-8 md:py-7
+        "
+      >
+        {/* Header content */}
+        <div className="relative z-10 space-y-3">
+          <p className="text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-slate-500 dark:text-slate-400">
             Panel del cliente
           </p>
 
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-50 md:text-3xl">
-            Panel de Control — {clientReport.clientName}
+          <h1 className="text-2xl md:text-3xl font-semibold text-slate-900 dark:text-slate-50">
+            {clientReport.clientName}
           </h1>
 
-          <p className="text-sm text-slate-700 dark:text-slate-300">
-            Resumen general de tu empresa
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            Resumen general de actividad y estado del sistema
           </p>
 
-          <div className="flex flex-wrap gap-2 pt-1">
-            <Chip
-              label={`Usuarios activos: ${clientReport.activeUsers}`}
-              variant="outlined"
-              className="border-sky-300/60 text-xs font-medium text-sky-700 dark:border-sky-700/80 dark:text-sky-200"
-            />
-            <Chip
-              label={`Líneas activas: ${lineReport.activeLines}`}
-              variant="outlined"
-              className="border-sky-300/60 text-xs font-medium text-sky-700 dark:border-sky-700/80 dark:text-sky-200"
-            />
-          </div>
-        </CardContent>
+          {/* KPIs rápidos */}
+          <div className="flex flex-wrap gap-3 pt-2">
+            <span
+              className="
+                inline-flex items-center rounded-full
+                border border-slate-300 dark:border-slate-600
+                bg-slate-50 dark:bg-slate-800
+                px-3 py-1 text-xs font-medium
+                text-slate-700 dark:text-slate-200
+              "
+            >
+              Usuarios activos: {clientReport.activeUsers}
+            </span>
 
-        {/* glow decorativo */}
-        <div className="pointer-events-none absolute -bottom-10 -left-10 h-48 w-[140%] rounded-[999px] bg-[radial-gradient(circle_at_10%_60%,rgba(59,130,246,0.35),transparent_65%)] dark:bg-[radial-gradient(circle_at_10%_60%,rgba(59,130,246,0.5),transparent_65%)]" />
-      </Card>
+            <span
+              className="
+                inline-flex items-center rounded-full
+                border border-slate-300 dark:border-slate-600
+                bg-slate-50 dark:bg-slate-800
+                px-3 py-1 text-xs font-medium
+                text-slate-700 dark:text-slate-200
+              "
+            >
+              Líneas activas: {lineReport.activeLines}
+            </span>
+          </div>
+        </div>
+
+        {/* Decoración sutil */}
+        <div
+          className="
+            pointer-events-none absolute inset-x-0 bottom-0 h-24
+            bg-gradient-to-t from-slate-100/60 to-transparent
+            dark:from-slate-800/40
+          "
+        />
+      </div>
     </motion.div>
   );
 };
 
 export default Header;
+

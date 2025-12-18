@@ -9,21 +9,11 @@ import { DeviceStatusChip } from "../../components/ui/DeviceStatusChip";
 import { DeviceDetailsModal } from "../../components/devices/DeviceDetailsModal";
 import { translate } from "../../utils/translate";
 
-import { Eye } from "lucide-react";
+import { Eye, Search } from "lucide-react";
 
-// MUI
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
 
 const AdminClientDevicesPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -108,82 +98,82 @@ const AdminClientDevicesPage = () => {
           Dispositivos del Cliente
         </Typography>
 
-        <TextField
-          label="Buscar dispositivos"
-          variant="outlined"
-          size="small"
-          value={search}
-          onChange={handleSearchChange}
-          sx={{
-            minWidth: 240,
-            "& .MuiOutlinedInput-root": { color: "text.primary" },
-            "& .MuiInputLabel-root": { color: "text.secondary" },
-          }}
-        />
+        <div className="relative">
+          <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
+            <Search className="h-4 w-4 text-slate-400" />
+          </span>
+          <input
+            type="text"
+            value={search}
+            onChange={handleSearchChange}
+            placeholder="Buscar dispositivos"
+            aria-label="Buscar dispositivos"
+            className="w-72 max-w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm text-slate-800 shadow-sm outline-none ring-0 transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:focus:border-sky-500 dark:focus:ring-sky-900/40"
+          />
+        </div>
       </div>
 
       {/* Tabla */}
-      <TableContainer
-        component={Paper}
-        elevation={1}
-        className="rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900"
-      >
-        <Table className="text-slate-700 dark:text-slate-200">
-          <TableHead className="bg-slate-50 dark:bg-slate-900">
-            <TableRow>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>ID</strong></TableCell>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Tipo</strong></TableCell>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Marca</strong></TableCell>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Modelo</strong></TableCell>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Estado</strong></TableCell>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Empleado</strong></TableCell>
-              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Línea</strong></TableCell>
-              <TableCell align="right" className="text-slate-700 dark:text-slate-300"><strong>Acciones</strong></TableCell>
-            </TableRow>
-          </TableHead>
+      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
+        <table className="w-full border-collapse text-slate-700 dark:text-slate-200">
+          <thead className="bg-slate-50 dark:bg-slate-800/50">
+            <tr className="text-left text-sm text-slate-600 dark:text-slate-300">
+              <th className="px-3 py-3 font-semibold">ID</th>
+              <th className="px-3 py-3 font-semibold">Tipo</th>
+              <th className="px-3 py-3 font-semibold">Marca</th>
+              <th className="px-3 py-3 font-semibold">Modelo</th>
+              <th className="px-3 py-3 font-semibold">Estado</th>
+              <th className="px-3 py-3 font-semibold">Empleado</th>
+              <th className="px-3 py-3 font-semibold">Línea</th>
+              <th className="px-3 py-3 font-semibold text-center">Acciones</th>
+            </tr>
+          </thead>
 
-          <TableBody className="bg-white dark:bg-slate-900">
+          <tbody>
             {filteredDevices.map((d) => (
-              <TableRow key={d.id} hover>
-                <TableCell className="text-slate-700 dark:text-slate-200">{d.id}</TableCell>
-                <TableCell className="text-slate-700 dark:text-slate-200">{translate("type", d.type ?? "")}</TableCell>
-                <TableCell className="text-slate-700 dark:text-slate-200">{d.brand}</TableCell>
-                <TableCell className="text-slate-700 dark:text-slate-200">{d.model}</TableCell>
-                <TableCell>
+              <tr
+                key={d.id}
+                className="text-sm transition hover:bg-slate-50 dark:hover:bg-slate-800/40 border-b border-slate-200 dark:border-slate-700"
+              >
+                <td className="px-3 py-3 text-slate-500 dark:text-slate-400">{d.id}</td>
+                <td className="px-3 py-3 text-slate-700 dark:text-slate-200">
+                  {translate("type", d.type ?? "")}
+                </td>
+                <td className="px-3 py-3 text-slate-700 dark:text-slate-200">{d.brand}</td>
+                <td className="px-3 py-3 text-slate-700 dark:text-slate-200">{d.model}</td>
+                <td className="px-3 py-3">
                   <DeviceStatusChip status={d.status} />
-                </TableCell>
-                <TableCell className="text-slate-700 dark:text-slate-200">{d.employeeId ?? "—"}</TableCell>
-                <TableCell className="text-slate-700 dark:text-slate-200">{d.lineId ?? "—"}</TableCell>
-
-                {/* Actions */}
-                <TableCell align="right">
-                  <IconButton
-                    onClick={() => openDetails(d)}
-                    className="hover:bg-slate-200 dark:hover:bg-slate-800 p-1"
-                  >
-                    <Eye size={18} className="text-slate-600 dark:text-slate-200" />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
+                </td>
+                <td className="px-3 py-3 text-slate-700 dark:text-slate-200">{d.employeeId ?? "—"}</td>
+                <td className="px-3 py-3 text-slate-700 dark:text-slate-200">{d.lineId ?? "—"}</td>
+                <td className="px-3 py-3">
+                  <div className="flex items-center justify-center">
+                    <button
+                      type="button"
+                      onClick={() => openDetails(d)}
+                      className="inline-flex items-center justify-center rounded-lg p-2 text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800/50 transition"
+                      aria-label="Ver detalles del dispositivo"
+                    >
+                      <Eye className="h-4 w-4" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
             ))}
 
             {filteredDevices.length === 0 && (
-              <TableRow>
-                <TableCell colSpan={8}>
-                  <Typography
-                    variant="body1"
-                    align="center"
-                    sx={{ py: 3 }}
-                    color="text.secondary"
-                  >
-                    No se han encontrado dispositivos con ese criterio de búsqueda.
-                  </Typography>
-                </TableCell>
-              </TableRow>
+              <tr>
+                <td
+                  colSpan={8}
+                  className="py-8 text-center text-sm text-slate-500 dark:text-slate-400"
+                >
+                  No se han encontrado dispositivos con ese criterio de búsqueda.
+                </td>
+              </tr>
             )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          </tbody>
+        </table>
+      </div>
 
       {/* Modal */}
       <DeviceDetailsModal

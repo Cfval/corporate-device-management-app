@@ -1,4 +1,3 @@
-// src/pages/client/ClientDashboard/index.tsx
 import { useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
 import { useAuth } from "../../../context/AuthContext";

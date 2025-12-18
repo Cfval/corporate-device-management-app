@@ -101,6 +101,7 @@ type MenuItem =
         min-h-screen       /* <── FIX PRINCIPAL */
         bg-white dark:bg-slate-900 
         text-slate-700 dark:text-slate-200
+        border-r border-slate-200 dark:border-slate-700
       ">
   
       {/* HEADER */}
