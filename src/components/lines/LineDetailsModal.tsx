@@ -28,8 +28,9 @@ export const LineDetailsModal = ({ open, line, onClose }: Props) => {
     label: string;
     value: React.ReactNode;
   }) => (
-    <Typography className="text-gray-900">
-      <strong className="text-gray-700">{label}:</strong> {value ?? "—"}
+    <Typography className="text-slate-700 dark:text-slate-100">
+      <strong className="text-slate-600 dark:text-slate-200">{label}:</strong>{" "}
+      {value ?? "—"}
     </Typography>
   );
 
@@ -43,15 +44,19 @@ export const LineDetailsModal = ({ open, line, onClose }: Props) => {
       disableEnforceFocus={false}
       slotProps={{
         paper: {
-          className: "rounded-xl",
+          className:
+            "rounded-xl bg-white text-slate-700 dark:bg-slate-900 dark:text-slate-100",
         },
       }}
     >
-      <DialogTitle className="font-semibold text-lg">
+      <DialogTitle className="font-semibold text-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">
         Detalles de la línea
       </DialogTitle>
 
-      <DialogContent dividers className="space-y-4">
+      <DialogContent
+        dividers
+        className="space-y-4 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-100"
+      >
         {/* Información general */}
         <div className="space-y-2">
           <Row label="ID" value={line.id} />
@@ -90,7 +95,7 @@ export const LineDetailsModal = ({ open, line, onClose }: Props) => {
         </div>
       </DialogContent>
 
-      <DialogActions className="p-4">
+      <DialogActions className="p-4 bg-white dark:bg-slate-900 dark:text-slate-100">
         <Button variant="contained" onClick={onClose} fullWidth>
           Cerrar
         </Button>

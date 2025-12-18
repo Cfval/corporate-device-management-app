@@ -253,31 +253,31 @@ const AdminDashboard = () => {
           </div>
 
           {clients.length > 0 ? (
-            <TableContainer component="div">
-              <Table size="small">
-                <TableHead>
+            <TableContainer component="div" className="bg-white dark:bg-slate-900 rounded-lg">
+              <Table size="small" className="text-slate-700 dark:text-slate-200">
+                <TableHead className="bg-slate-50 dark:bg-slate-900">
                   <TableRow>
-                    <TableCell>
+                    <TableCell className="text-slate-700 dark:text-slate-300">
                       <strong>ID</strong>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="text-slate-700 dark:text-slate-300">
                       <strong>Nombre</strong>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="text-slate-700 dark:text-slate-300">
                       <strong>Email</strong>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="text-slate-700 dark:text-slate-300">
                       <strong>Teléfono</strong>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="text-slate-700 dark:text-slate-300">
                       <strong>Estado</strong>
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell align="right" className="text-slate-700 dark:text-slate-300">
                       <strong>Acciones</strong>
                     </TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody>
+                <TableBody className="bg-white dark:bg-slate-900">
                   {clients.map((client) => (
                     <TableRow
                       key={client.id}
@@ -290,8 +290,8 @@ const AdminDashboard = () => {
                       }}
                       onClick={() => navigate(`/admin/clients/${client.id}`)}
                     >
-                      <TableCell>{client.id}</TableCell>
-                      <TableCell>{client.companyName}</TableCell>
+                      <TableCell className="text-slate-700 dark:text-slate-200">{client.id}</TableCell>
+                      <TableCell className="text-slate-700 dark:text-slate-200">{client.companyName}</TableCell>
                       <TableCell
                         sx={{
                           maxWidth: 220,
@@ -301,9 +301,9 @@ const AdminDashboard = () => {
                         }}
                         title={client.email}
                       >
-                        {client.email}
+                        <span className="text-slate-700 dark:text-slate-200">{client.email}</span>
                       </TableCell>
-                      <TableCell>{client.phoneNumber}</TableCell>
+                      <TableCell className="text-slate-700 dark:text-slate-200">{client.phoneNumber}</TableCell>
                       <TableCell>
                         <ClientStatusChip status={client.status} />
                       </TableCell>

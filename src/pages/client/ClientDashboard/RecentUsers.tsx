@@ -18,7 +18,7 @@ const RecentUsers = ({ users }: RecentUsersProps) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, delay: 0.1 }}
     >
-      <Card className="h-full rounded-3xl border border-slate-200/70 bg-white/90 shadow-sm backdrop-blur-sm dark:border-slate-700/80 dark:bg-slate-900/80">
+      <Card className="h-full rounded-3xl border border-slate-200/70 bg-white shadow-sm backdrop-blur-sm dark:border-slate-700/80 dark:bg-slate-900">
         <CardContent className="flex h-full flex-col gap-4 p-5 sm:p-6">
           <div className="flex items-center justify-between gap-2">
             <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-50">

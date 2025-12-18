@@ -204,10 +204,10 @@ const AdminReportsPage = () => {
   }
 
   return (
-    <div className="w-full px-6 py-6 space-y-6">
+    <div className="w-full px-6 py-6 space-y-6 text-slate-800 dark:text-slate-100">
       <div className="space-y-2">
-        <h1 className="text-3xl font-semibold text-slate-900">Reportes</h1>
-        <p className="text-sm text-slate-500">
+        <h1 className="text-3xl font-semibold text-slate-900 dark:text-slate-50">Reportes</h1>
+        <p className="text-sm text-slate-500 dark:text-slate-300">
           {systemReport
             ? `Última generación del reporte global: ${formatReportDate(systemReport.generatedAt)}`
             : "Cargando información del sistema..."}
@@ -239,7 +239,7 @@ const AdminReportsPage = () => {
           <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
             Reportes por cliente
           </h3>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-500 dark:text-slate-300">
             Selecciona un cliente para ver métricas detalladas de dispositivos, líneas y usuarios.
           </p>
         </div>
@@ -256,12 +256,21 @@ const AdminReportsPage = () => {
               setSelectedClientId(value === "" ? "" : Number(value));
             }}
             disabled={loadingClients}
+            sx={{
+              "& .MuiOutlinedInput-root": { color: "text.primary" },
+              "& .MuiInputLabel-root": { color: "text.secondary" },
+              "& .MuiSvgIcon-root": { color: "text.primary" },
+            }}
           >
-            <MenuItem value="">
+            <MenuItem value="" className="dark:bg-slate-800 dark:text-slate-100">
               <em>Selecciona un cliente</em>
             </MenuItem>
             {clients.map((client) => (
-              <MenuItem key={client.id} value={client.id}>
+              <MenuItem
+                key={client.id}
+                value={client.id}
+                className="dark:bg-slate-800 dark:text-slate-100"
+              >
                 {client.companyName}
               </MenuItem>
             ))}
@@ -271,7 +280,7 @@ const AdminReportsPage = () => {
         {error && <p className="text-sm text-red-600">{error}</p>}
 
         {!selectedClientId && (
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-500 dark:text-slate-300">
             Selecciona un cliente para visualizar sus reportes.
           </p>
         )}

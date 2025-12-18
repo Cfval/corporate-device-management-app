@@ -92,7 +92,7 @@ const AdminClientsPage = () => {
   }
 
   return (
-    <Box className="p-6 space-y-6">
+    <Box className="p-6 space-y-6 text-slate-800 dark:text-slate-100">
       {/* Header */}
       <motion.div
         variants={fadeUp}
@@ -102,11 +102,11 @@ const AdminClientsPage = () => {
         className="flex justify-between items-end flex-wrap gap-4"
       >
         <div>
-          <Typography variant="h4" className="font-bold text-slate-900 mb-1">
+          <Typography variant="h4" className="font-bold text-slate-900 dark:text-slate-50 mb-1">
             Gestión de clientes
           </Typography>
 
-          <Typography variant="subtitle1" className="text-slate-500">
+          <Typography variant="subtitle1" className="text-slate-500 dark:text-slate-300">
             Total de clientes: {totalClients}
           </Typography>
         </div>
@@ -125,21 +125,21 @@ const AdminClientsPage = () => {
 
       {/* Tabla */}
       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm rounded-xl p-4">
-        <TableContainer component="div">
-          <Table>
-            <TableHead>
+        <TableContainer component="div" className="bg-white dark:bg-slate-900 rounded-lg">
+          <Table className="text-slate-700 dark:text-slate-200">
+            <TableHead className="bg-slate-50 dark:bg-slate-900">
               <TableRow>
-                <TableCell><strong>ID</strong></TableCell>
-                <TableCell><strong>Empresa</strong></TableCell>
-                <TableCell><strong>CIF</strong></TableCell>
-                <TableCell><strong>Email</strong></TableCell>
-                <TableCell><strong>Teléfono</strong></TableCell>
-                <TableCell><strong>Estado</strong></TableCell>
-                <TableCell align="right"><strong>Acciones</strong></TableCell>
+                <TableCell className="text-slate-700 dark:text-slate-300"><strong>ID</strong></TableCell>
+                <TableCell className="text-slate-700 dark:text-slate-300"><strong>Empresa</strong></TableCell>
+                <TableCell className="text-slate-700 dark:text-slate-300"><strong>CIF</strong></TableCell>
+                <TableCell className="text-slate-700 dark:text-slate-300"><strong>Email</strong></TableCell>
+                <TableCell className="text-slate-700 dark:text-slate-300"><strong>Teléfono</strong></TableCell>
+                <TableCell className="text-slate-700 dark:text-slate-300"><strong>Estado</strong></TableCell>
+                <TableCell align="right" className="text-slate-700 dark:text-slate-300"><strong>Acciones</strong></TableCell>
               </TableRow>
             </TableHead>
 
-            <TableBody>
+            <TableBody className="bg-white dark:bg-slate-900">
               {filteredClients.map((client) => (
                 <TableRow
                   key={client.id}
@@ -152,9 +152,9 @@ const AdminClientsPage = () => {
                   }}
                   onClick={() => navigate(`/admin/clients/${client.id}`)}
                 >
-                  <TableCell>{client.id}</TableCell>
-                  <TableCell>{client.companyName}</TableCell>
-                  <TableCell>{client.cif}</TableCell>
+                  <TableCell className="text-slate-700 dark:text-slate-200">{client.id}</TableCell>
+                  <TableCell className="text-slate-700 dark:text-slate-200">{client.companyName}</TableCell>
+                  <TableCell className="text-slate-700 dark:text-slate-200">{client.cif}</TableCell>
 
                   <TableCell
                     sx={{
@@ -165,10 +165,10 @@ const AdminClientsPage = () => {
                     }}
                     title={client.email}
                   >
-                    {client.email}
+                    <span className="text-slate-700 dark:text-slate-200">{client.email}</span>
                   </TableCell>
 
-                  <TableCell>{client.phoneNumber}</TableCell>
+                  <TableCell className="text-slate-700 dark:text-slate-200">{client.phoneNumber}</TableCell>
 
                   <TableCell>
                     <ClientStatusChip status={client.status} />

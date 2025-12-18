@@ -76,7 +76,7 @@ const DevicePieChart = ({ deviceReport }: DevicePieChartProps) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, delay: 0.05 }}
     >
-      <Card className="h-full rounded-3xl border border-slate-200/70 bg-white/90 shadow-sm backdrop-blur-sm dark:border-slate-700/80 dark:bg-slate-900/80">
+      <Card className="h-full rounded-3xl border border-slate-200/70 bg-white shadow-sm backdrop-blur-sm dark:border-slate-700/80 dark:bg-slate-900">
         <CardContent className="p-5 sm:p-6">
           <h2 className="mb-3 text-center text-sm font-semibold text-slate-900 dark:text-slate-50">
             Distribución de dispositivos

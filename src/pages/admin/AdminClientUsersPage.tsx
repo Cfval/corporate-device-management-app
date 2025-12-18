@@ -82,10 +82,10 @@ const AdminClientUsersPage = () => {
   }
 
   return (
-    <div className="px-6 py-6 max-w-screen-xl mx-auto">
+    <div className="px-6 py-6 max-w-screen-xl mx-auto text-slate-800 dark:text-slate-100">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
-        <Typography variant="h4" className="font-bold">
+        <Typography variant="h4" className="font-bold text-slate-900 dark:text-slate-50">
           Usuarios del Cliente
         </Typography>
 
@@ -95,7 +95,11 @@ const AdminClientUsersPage = () => {
           size="small"
           value={search}
           onChange={handleSearchChange}
-          sx={{ minWidth: 240 }}
+          sx={{
+            minWidth: 240,
+            "& .MuiOutlinedInput-root": { color: "text.primary" },
+            "& .MuiInputLabel-root": { color: "text.secondary" },
+          }}
         />
       </div>
 
@@ -103,26 +107,26 @@ const AdminClientUsersPage = () => {
       <TableContainer
         component={Paper}
         elevation={1}
-        className="rounded-xl border border-slate-200"
+        className="rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900"
       >
-        <Table>
-          <TableHead>
+        <Table className="text-slate-700 dark:text-slate-200">
+          <TableHead className="bg-slate-50 dark:bg-slate-900">
             <TableRow>
-              <TableCell><strong>ID</strong></TableCell>
-              <TableCell><strong>Nombre</strong></TableCell>
-              <TableCell><strong>Email</strong></TableCell>
-              <TableCell><strong>Departamento</strong></TableCell>
-              <TableCell><strong>Estado</strong></TableCell>
-              <TableCell><strong>Rol</strong></TableCell>
-              <TableCell><strong>Registro</strong></TableCell>
+              <TableCell className="text-slate-700 dark:text-slate-300"><strong>ID</strong></TableCell>
+              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Nombre</strong></TableCell>
+              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Email</strong></TableCell>
+              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Departamento</strong></TableCell>
+              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Estado</strong></TableCell>
+              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Rol</strong></TableCell>
+              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Registro</strong></TableCell>
             </TableRow>
           </TableHead>
 
-          <TableBody>
+          <TableBody className="bg-white dark:bg-slate-900">
             {filteredUsers.map((u) => (
               <TableRow key={u.id} hover>
-                <TableCell>{u.id}</TableCell>
-                <TableCell>{u.fullName}</TableCell>
+                <TableCell className="text-slate-700 dark:text-slate-200">{u.id}</TableCell>
+                <TableCell className="text-slate-700 dark:text-slate-200">{u.fullName}</TableCell>
 
                 <TableCell
                   sx={{
@@ -133,10 +137,10 @@ const AdminClientUsersPage = () => {
                   }}
                   title={u.email}
                 >
-                  {u.email}
+                  <span className="text-slate-700 dark:text-slate-200">{u.email}</span>
                 </TableCell>
 
-                <TableCell>{u.department || "—"}</TableCell>
+                <TableCell className="text-slate-700 dark:text-slate-200">{u.department || "—"}</TableCell>
 
                 <TableCell>
                   <UserStatusChip status={u.status} />
@@ -146,7 +150,7 @@ const AdminClientUsersPage = () => {
                   <UserRoleChip role={u.role} />
                 </TableCell>
 
-                <TableCell>
+                <TableCell className="text-slate-700 dark:text-slate-200">
                   {new Date(u.registrationDate).toLocaleDateString()}
                 </TableCell>
               </TableRow>
@@ -158,8 +162,7 @@ const AdminClientUsersPage = () => {
                   <Typography
                     variant="body1"
                     align="center"
-                    sx={{ py: 3 }}
-                    color="text.secondary"
+                    sx={{ py: 3, color: "text.secondary" }}
                   >
                     No se han encontrado usuarios con ese criterio de búsqueda.
                   </Typography>

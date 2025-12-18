@@ -69,7 +69,7 @@ const ClientEditPage = () => {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-6 text-slate-800 dark:text-slate-100">
       <h1 className="mb-6 text-2xl font-bold text-slate-900 dark:text-slate-50">
         Editar datos de la empresa
       </h1>
@@ -78,7 +78,7 @@ const ClientEditPage = () => {
         initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.2 }}
-        className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900"
+        className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800"
       >
         <ClientEditForm
           form={form}

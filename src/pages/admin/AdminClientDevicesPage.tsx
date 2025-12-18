@@ -101,10 +101,10 @@ const AdminClientDevicesPage = () => {
   }
 
   return (
-    <div className="px-6 py-6 max-w-screen-xl mx-auto">
+    <div className="px-6 py-6 max-w-screen-xl mx-auto text-slate-800 dark:text-slate-100">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
-        <Typography variant="h4" className="font-bold">
+        <Typography variant="h4" className="font-bold text-slate-900 dark:text-slate-50">
           Dispositivos del Cliente
         </Typography>
 
@@ -114,7 +114,11 @@ const AdminClientDevicesPage = () => {
           size="small"
           value={search}
           onChange={handleSearchChange}
-          sx={{ minWidth: 240 }}
+          sx={{
+            minWidth: 240,
+            "& .MuiOutlinedInput-root": { color: "text.primary" },
+            "& .MuiInputLabel-root": { color: "text.secondary" },
+          }}
         />
       </div>
 
@@ -122,42 +126,42 @@ const AdminClientDevicesPage = () => {
       <TableContainer
         component={Paper}
         elevation={1}
-        className="rounded-xl border border-slate-200"
+        className="rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900"
       >
-        <Table>
-          <TableHead>
+        <Table className="text-slate-700 dark:text-slate-200">
+          <TableHead className="bg-slate-50 dark:bg-slate-900">
             <TableRow>
-              <TableCell><strong>ID</strong></TableCell>
-              <TableCell><strong>Tipo</strong></TableCell>
-              <TableCell><strong>Marca</strong></TableCell>
-              <TableCell><strong>Modelo</strong></TableCell>
-              <TableCell><strong>Estado</strong></TableCell>
-              <TableCell><strong>Empleado</strong></TableCell>
-              <TableCell><strong>Línea</strong></TableCell>
-              <TableCell align="right"><strong>Acciones</strong></TableCell>
+              <TableCell className="text-slate-700 dark:text-slate-300"><strong>ID</strong></TableCell>
+              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Tipo</strong></TableCell>
+              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Marca</strong></TableCell>
+              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Modelo</strong></TableCell>
+              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Estado</strong></TableCell>
+              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Empleado</strong></TableCell>
+              <TableCell className="text-slate-700 dark:text-slate-300"><strong>Línea</strong></TableCell>
+              <TableCell align="right" className="text-slate-700 dark:text-slate-300"><strong>Acciones</strong></TableCell>
             </TableRow>
           </TableHead>
 
-          <TableBody>
+          <TableBody className="bg-white dark:bg-slate-900">
             {filteredDevices.map((d) => (
               <TableRow key={d.id} hover>
-                <TableCell>{d.id}</TableCell>
-                <TableCell>{translate("type", d.type ?? "")}</TableCell>
-                <TableCell>{d.brand}</TableCell>
-                <TableCell>{d.model}</TableCell>
+                <TableCell className="text-slate-700 dark:text-slate-200">{d.id}</TableCell>
+                <TableCell className="text-slate-700 dark:text-slate-200">{translate("type", d.type ?? "")}</TableCell>
+                <TableCell className="text-slate-700 dark:text-slate-200">{d.brand}</TableCell>
+                <TableCell className="text-slate-700 dark:text-slate-200">{d.model}</TableCell>
                 <TableCell>
                   <DeviceStatusChip status={d.status} />
                 </TableCell>
-                <TableCell>{d.employeeId ?? "—"}</TableCell>
-                <TableCell>{d.lineId ?? "—"}</TableCell>
+                <TableCell className="text-slate-700 dark:text-slate-200">{d.employeeId ?? "—"}</TableCell>
+                <TableCell className="text-slate-700 dark:text-slate-200">{d.lineId ?? "—"}</TableCell>
 
                 {/* Actions */}
                 <TableCell align="right">
                   <IconButton
                     onClick={() => openDetails(d)}
-                    className="hover:bg-slate-200 p-1"
+                    className="hover:bg-slate-200 dark:hover:bg-slate-800 p-1"
                   >
-                    <Eye size={18} className="text-slate-600" />
+                    <Eye size={18} className="text-slate-600 dark:text-slate-200" />
                   </IconButton>
                 </TableCell>
               </TableRow>
