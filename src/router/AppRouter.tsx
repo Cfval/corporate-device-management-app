@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import LoginPage from '../pages/public/LoginPage';
 import LandingPage from '../pages/public/LandingPage';
+import Landing2Page from '../pages/public/Landing2Page';
+import Landing1Page from '../pages/public/Landing1Page';
 import AdminLayout from '../layouts/AdminLayout';
 import ClientLayout from '../layouts/ClientLayout';
 import WelcomePage from '../pages/public/WelcomePage';
@@ -35,6 +37,9 @@ const AppRouter = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/landing" element={<LandingPage />} />
+        <Route path="/landing1" element={<Landing1Page />} />
+        <Route path="/landing2" element={<Landing2Page />} />
+        <Route path="/landing3" element={<LandingPage />} />
         <Route path="/" element={<WelcomePage />} />
         <Route 
           path="/login" 

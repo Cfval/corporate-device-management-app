@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { AnimatedWave } from "../../components/ui/AnimatedWave";
 
-// HeroIcons (gratis)
+// HeroIcons
 import {
   DevicePhoneMobileIcon,
   SignalIcon,
@@ -16,7 +16,6 @@ import {
  * Página pública de presentación de la plataforma.
  * - TailwindCSS para el estilo
  * - Framer Motion para animaciones suaves
- * - Sin Material UI
  */
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -96,7 +95,7 @@ const LandingPage: React.FC = () => {
               </motion.button>
 
               <p className="text-xs sm:text-sm text-slate-400">
-                Proyecto TFG DAM / DAW · Arquitectura por microservicios,
+                Proyecto TFG DAW · Arquitectura por microservicios,
                 Spring Boot & React.
               </p>
             </div>
@@ -129,7 +128,7 @@ const LandingPage: React.FC = () => {
                     </span>
                   </div>
                   <span className="text-[11px] text-slate-500">
-                    Demo · e2 Mobile
+                    Demo
                   </span>
                 </div>
 
@@ -284,7 +283,7 @@ const LandingPage: React.FC = () => {
       <footer className="mt-auto bg-slate-900/95 border-t border-slate-800/80">
         <div className="mx-auto flex max-w-6xl items-center justify-center px-4 py-4 sm:px-8">
           <p className="text-center text-xs sm:text-sm text-slate-400">
-            © 2025 Digital Citizen — Proyecto TFG DAM / DAW
+            © 2025 Digital Citizen — Proyecto TFG DAW
           </p>
         </div>
       </footer>
