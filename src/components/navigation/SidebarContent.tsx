@@ -15,7 +15,7 @@ import {
 
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
-import digitalcitizenIcon from "../../assets/icons/DigitalCitizen.svg";
+import digitalcitizenIcon from "../../assets/icons/digitalcitizen.svg";
 
 interface SidebarContentProps {
   onNavigate?: () => void;
