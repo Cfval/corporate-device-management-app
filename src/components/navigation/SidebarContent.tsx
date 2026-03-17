@@ -91,8 +91,8 @@ type MenuItem =
     };
   
     const handleLogout = () => {
-      logout();
-      navigate("/login");
+      navigate("/landing");
+      setTimeout(logout, 0);
     };
   
     return (

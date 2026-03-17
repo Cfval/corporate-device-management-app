@@ -4,15 +4,30 @@ import type { UserRole, AuthContextType } from '../types';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const AUTH_KEY = "auth";
+
+function loadStoredUser(): { role: UserRole; clientId?: string } | null {
+  try {
+    const raw = localStorage.getItem(AUTH_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<{ role: UserRole; clientId?: string } | null>(null);
+  const [user, setUser] = useState<{ role: UserRole; clientId?: string } | null>(loadStoredUser);
 
   const login = (role: UserRole, clientId?: string) => {
-    setUser({ role, clientId });
+    const value = { role, clientId };
+    setUser(value);
+    localStorage.setItem(AUTH_KEY, JSON.stringify(value));
   };
 
   const logout = () => {
     setUser(null);
+    localStorage.removeItem(AUTH_KEY);
+    localStorage.removeItem("token");
   };
 
   return (
