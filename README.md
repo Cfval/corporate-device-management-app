@@ -21,13 +21,30 @@ Digital Citizen gives organisations a single interface to manage their mobile fl
 
 ## Screenshots
 
-| Landing page | Client dashboard |
-|---|---|
-| _screenshot_ | _screenshot_ |
+### Landing page
+![Landing page with animated hero section and feature cards](docs/screenshots/landing-page.png)
+*Public landing page — animated hero, feature overview and language toggle*
 
-| Device management | Admin overview |
-|---|---|
-| _screenshot_ | _screenshot_ |
+### Admin dashboard
+![Admin dashboard showing KPI charts and client overview](docs/screenshots/dashboard.png)
+*Admin dashboard — global KPIs and client activity charts*
+
+### Device management
+![Device management page with table, filters and bulk actions](docs/screenshots/devices.png)
+*Device management — filterable table with bulk selection and inline status badges*
+
+### Create line — form and detail modal
+
+<table>
+  <tr>
+    <td><img src="docs/screenshots/create-line-form.png" alt="Create line form dialog"/><br/><em>Create line form — operator, tariff and assignment fields</em></td>
+    <td><img src="docs/screenshots/line-modal.png" alt="Line detail modal showing full line information"/><br/><em>Line detail modal — full line information and status</em></td>
+  </tr>
+</table>
+
+### Dark mode
+![Application in dark mode showing the client dashboard](docs/screenshots/dark-mode.png)
+*Dark mode — available across all pages, persisted in localStorage*
 
 ---
 
