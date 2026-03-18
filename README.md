@@ -3,12 +3,14 @@
 Frontend for the **Digital Citizen** platform — a web application for managing corporate mobile devices, SIM lines and users across an organisation.
 
 **Live demo:** [digital-citizen-app.onrender.com](https://digital-citizen-app.onrender.com/landing)
-
 **API docs (Swagger):** [digital-citizen-api.onrender.com/swagger-ui/index.html](https://digital-citizen-api.onrender.com/swagger-ui/index.html)
+> **Both services are hosted on Render's free tier and may take up to 50 seconds to respond on the first request after a period of inactivity.**
+>
+> **To use the app, open both links and wait for each service to finish waking up before interacting with the frontend.**
 
 **Backend repository:** [corporate-device-management-api](https://github.com/Cfval/corporate-device-management-api)
 
-> Both services are deployed on Render's free tier. If you are visiting for the first time the servers may take up to 50 seconds to wake up — please allow a moment before logging in.
+
 
 ---
 
